@@ -83,6 +83,49 @@
   .filter-btn:hover{ color: var(--porcelain); border-color: var(--porcelain-dim); }
   .filter-btn.active{ background: var(--champagne); color: var(--ink); border-color: var(--champagne); }
 
+  .search-wrap{
+    max-width: 320px;
+    margin: 20px auto 0;
+    position: relative;
+  }
+
+  .search-wrap input{
+    width: 100%;
+    background: var(--ink-soft);
+    border: 1px solid var(--hairline);
+    color: var(--porcelain);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    padding: 10px 14px 10px 34px;
+    outline: none;
+  }
+
+  .search-wrap input::placeholder{ color: var(--porcelain-dim); }
+  .search-wrap input:focus{ border-color: var(--champagne); }
+
+  .search-wrap svg{
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    stroke: var(--porcelain-dim);
+    pointer-events: none;
+  }
+
+  .no-results{
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--porcelain-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    display: none;
+  }
+
+  .no-results.show{ display: block; }
+
   main{
     max-width: 1280px;
     margin: 0 auto;
@@ -118,7 +161,15 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 50% 48%;
     display: block;
+    transform: scale(1.7);
+    transform-origin: 50% 48%;
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover img{
+    transform: scale(1.8);
   }
 
   .card .plate{
@@ -255,6 +306,32 @@
     width: 100%;
     border: 1px solid var(--hairline);
     background: #1a1a1a;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+    touch-action: manipulation;
+  }
+
+  .modal-body .zoom-wrap{
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+  }
+
+  .modal-body .zoom-wrap img{
+    border: none;
+  }
+
+  .modal-body img.zoomed{
+    transform: scale(2);
+    cursor: zoom-out;
+  }
+
+  .zoom-hint{
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--porcelain-dim);
+    text-align: center;
+    margin-top: 8px;
   }
 
   .detail-name{
@@ -379,6 +456,10 @@
 <button class="filter-btn" data-filter="Pear">Pear</button>
 <button class="filter-btn" data-filter="Radiant">Radiant</button>
 <button class="filter-btn" data-filter="Emerald-Cut">Emerald-Cut</button>
+  </div>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" placeholder="Search by ref number, e.g. LR45">
   </div>
 </header>
 
@@ -1495,6 +1576,7 @@
       </div>
     </div>
   </div>
+  <div class="no-results" id="noResults">No pieces match your search.</div>
 </main>
 
 <footer>
@@ -1509,7 +1591,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR01_drive.jpg" alt="LR01">
+      <div class="zoom-wrap"><img src="LR01_drive.jpg" alt="LR01" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Emerald-Cut Eternity Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1528,7 +1610,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR02_drive.jpg" alt="LR02">
+      <div class="zoom-wrap"><img src="LR02_drive.jpg" alt="LR02" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Halo Ring</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1547,7 +1629,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR04_drive.jpg" alt="LR04">
+      <div class="zoom-wrap"><img src="LR04_drive.jpg" alt="LR04" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear-Cut Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1566,7 +1648,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR05_drive.jpg" alt="LR05">
+      <div class="zoom-wrap"><img src="LR05_drive.jpg" alt="LR05" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Twist Pavé Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -1585,7 +1667,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR07_drive.jpg" alt="LR07">
+      <div class="zoom-wrap"><img src="LR07_drive.jpg" alt="LR07" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Bypass Ring</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -1604,7 +1686,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR08_drive.jpg" alt="LR08">
+      <div class="zoom-wrap"><img src="LR08_drive.jpg" alt="LR08" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Cluster Halo</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1623,7 +1705,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR11_drive.jpg" alt="LR11">
+      <div class="zoom-wrap"><img src="LR11_drive.jpg" alt="LR11" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant-Cut Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -1642,7 +1724,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR12_drive.jpg" alt="LR12">
+      <div class="zoom-wrap"><img src="LR12_drive.jpg" alt="LR12" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1661,7 +1743,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR14_drive.jpg" alt="LR14">
+      <div class="zoom-wrap"><img src="LR14_drive.jpg" alt="LR14" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Halo, Infinity Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1680,7 +1762,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR15_drive.jpg" alt="LR15">
+      <div class="zoom-wrap"><img src="LR15_drive.jpg" alt="LR15" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Duo Halo</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1699,7 +1781,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR16_drive.jpg" alt="LR16">
+      <div class="zoom-wrap"><img src="LR16_drive.jpg" alt="LR16" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1718,7 +1800,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR17_drive.jpg" alt="LR17">
+      <div class="zoom-wrap"><img src="LR17_drive.jpg" alt="LR17" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1737,7 +1819,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR18_drive.jpg" alt="LR18">
+      <div class="zoom-wrap"><img src="LR18_drive.jpg" alt="LR18" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant-Cut Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1756,7 +1838,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR19_drive.jpg" alt="LR19">
+      <div class="zoom-wrap"><img src="LR19_drive.jpg" alt="LR19" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1775,7 +1857,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR20_drive.jpg" alt="LR20">
+      <div class="zoom-wrap"><img src="LR20_drive.jpg" alt="LR20" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Wave Band</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1794,7 +1876,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR21_drive.jpg" alt="LR21">
+      <div class="zoom-wrap"><img src="LR21_drive.jpg" alt="LR21" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1813,7 +1895,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR23_drive.jpg" alt="LR23">
+      <div class="zoom-wrap"><img src="LR23_drive.jpg" alt="LR23" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire, Bypass Band</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1832,7 +1914,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR24_drive.jpg" alt="LR24">
+      <div class="zoom-wrap"><img src="LR24_drive.jpg" alt="LR24" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Mixed-Cut Five Stone Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1851,7 +1933,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR26_drive.jpg" alt="LR26">
+      <div class="zoom-wrap"><img src="LR26_drive.jpg" alt="LR26" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Cluster Sides</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1870,7 +1952,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR27_drive.jpg" alt="LR27">
+      <div class="zoom-wrap"><img src="LR27_drive.jpg" alt="LR27" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Marquise Sides</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1889,7 +1971,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR28_drive.jpg" alt="LR28">
+      <div class="zoom-wrap"><img src="LR28_drive.jpg" alt="LR28" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Cluster, Marquise Sides</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1908,7 +1990,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR29_drive.jpg" alt="LR29">
+      <div class="zoom-wrap"><img src="LR29_drive.jpg" alt="LR29" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round & Pear Duo</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1927,7 +2009,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR30_drive.jpg" alt="LR30">
+      <div class="zoom-wrap"><img src="LR30_drive.jpg" alt="LR30" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Bezel Sides</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -1946,7 +2028,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR31_drive.jpg" alt="LR31">
+      <div class="zoom-wrap"><img src="LR31_drive.jpg" alt="LR31" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Cluster Shoulders</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -1965,7 +2047,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR32_drive.jpg" alt="LR32">
+      <div class="zoom-wrap"><img src="LR32_drive.jpg" alt="LR32" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Marquise Cluster</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -1984,7 +2066,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR33_drive.jpg" alt="LR33">
+      <div class="zoom-wrap"><img src="LR33_drive.jpg" alt="LR33" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2003,7 +2085,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR34_drive.jpg" alt="LR34">
+      <div class="zoom-wrap"><img src="LR34_drive.jpg" alt="LR34" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Three-Stone</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -2022,7 +2104,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR35_drive.jpg" alt="LR35">
+      <div class="zoom-wrap"><img src="LR35_drive.jpg" alt="LR35" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire, Pavé Shoulders</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2041,7 +2123,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR36_drive.jpg" alt="LR36">
+      <div class="zoom-wrap"><img src="LR36_drive.jpg" alt="LR36" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Classic Round Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2060,7 +2142,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR37_drive.jpg" alt="LR37">
+      <div class="zoom-wrap"><img src="LR37_drive.jpg" alt="LR37" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Bezel Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2079,7 +2161,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR38_drive.jpg" alt="LR38">
+      <div class="zoom-wrap"><img src="LR38_drive.jpg" alt="LR38" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Three-Stone</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -2098,7 +2180,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR41_drive.jpg" alt="LR41">
+      <div class="zoom-wrap"><img src="LR41_drive.jpg" alt="LR41" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2117,7 +2199,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR43_drive.jpg" alt="LR43">
+      <div class="zoom-wrap"><img src="LR43_drive.jpg" alt="LR43" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2136,7 +2218,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR44_drive.jpg" alt="LR44">
+      <div class="zoom-wrap"><img src="LR44_drive.jpg" alt="LR44" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Round Three-Stone, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2155,7 +2237,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR48_drive.jpg" alt="LR48">
+      <div class="zoom-wrap"><img src="LR48_drive.jpg" alt="LR48" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Split Shank</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2174,7 +2256,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR50_drive.jpg" alt="LR50">
+      <div class="zoom-wrap"><img src="LR50_drive.jpg" alt="LR50" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Three-Stone, Twist Pavé</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2193,7 +2275,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR67_drive.jpg" alt="LR67">
+      <div class="zoom-wrap"><img src="LR67_drive.jpg" alt="LR67" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Cluster, Two-Tone</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -2212,7 +2294,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR68_drive.jpg" alt="LR68">
+      <div class="zoom-wrap"><img src="LR68_drive.jpg" alt="LR68" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant-Cut Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2231,7 +2313,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR16_new.jpg" alt="LR16">
+      <div class="zoom-wrap"><img src="LR16_new.jpg" alt="LR16" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2250,7 +2332,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR17_new.jpg" alt="LR17">
+      <div class="zoom-wrap"><img src="LR17_new.jpg" alt="LR17" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2269,7 +2351,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR18b_drive.jpg" alt="LR18">
+      <div class="zoom-wrap"><img src="LR18b_drive.jpg" alt="LR18" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant-Cut Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2288,7 +2370,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR39_drive.jpg" alt="LR39">
+      <div class="zoom-wrap"><img src="LR39_drive.jpg" alt="LR39" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire, Twist Band</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2307,7 +2389,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR40_drive.jpg" alt="LR40">
+      <div class="zoom-wrap"><img src="LR40_drive.jpg" alt="LR40" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear Solitaire, Cluster Sides</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2326,7 +2408,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR45_drive.jpg" alt="LR45">
+      <div class="zoom-wrap"><img src="LR45_drive.jpg" alt="LR45" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2345,7 +2427,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR49_new.jpg" alt="LR49">
+      <div class="zoom-wrap"><img src="LR49_new.jpg" alt="LR49" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Baguette Sides</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2364,7 +2446,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR59_new.jpg" alt="LR59">
+      <div class="zoom-wrap"><img src="LR59_new.jpg" alt="LR59" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Cluster Sides</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2383,7 +2465,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR61_drive.jpg" alt="LR61">
+      <div class="zoom-wrap"><img src="LR61_drive.jpg" alt="LR61" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear Halo, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2402,7 +2484,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR64_drive.jpg" alt="LR64">
+      <div class="zoom-wrap"><img src="LR64_drive.jpg" alt="LR64" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Marquise Cluster</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2421,7 +2503,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR65_drive.jpg" alt="LR65">
+      <div class="zoom-wrap"><img src="LR65_drive.jpg" alt="LR65" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2440,7 +2522,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR66_drive.jpg" alt="LR66">
+      <div class="zoom-wrap"><img src="LR66_drive.jpg" alt="LR66" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear Halo, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2459,7 +2541,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR69_drive.jpg" alt="LR69">
+      <div class="zoom-wrap"><img src="LR69_drive.jpg" alt="LR69" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Classic Round Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2478,7 +2560,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR70_drive.jpg" alt="LR70">
+      <div class="zoom-wrap"><img src="LR70_drive.jpg" alt="LR70" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear Cluster, Bypass Band</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2497,7 +2579,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR89_new.jpg" alt="LR89">
+      <div class="zoom-wrap"><img src="LR89_new.jpg" alt="LR89" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2516,7 +2598,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR90_new.jpg" alt="LR90">
+      <div class="zoom-wrap"><img src="LR90_new.jpg" alt="LR90" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2535,7 +2617,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR91_new.jpg" alt="LR91">
+      <div class="zoom-wrap"><img src="LR91_new.jpg" alt="LR91" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2554,7 +2636,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR92_new.jpg" alt="LR92">
+      <div class="zoom-wrap"><img src="LR92_new.jpg" alt="LR92" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2573,7 +2655,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR93_new.jpg" alt="LR93">
+      <div class="zoom-wrap"><img src="LR93_new.jpg" alt="LR93" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Cluster Twist Band</div>
         <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
@@ -2592,7 +2674,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR94_drive.jpg" alt="LR94">
+      <div class="zoom-wrap"><img src="LR94_drive.jpg" alt="LR94" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Twist Pavé</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2611,7 +2693,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR95_drive.jpg" alt="LR95">
+      <div class="zoom-wrap"><img src="LR95_drive.jpg" alt="LR95" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2630,7 +2712,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR97_drive.jpg" alt="LR97">
+      <div class="zoom-wrap"><img src="LR97_drive.jpg" alt="LR97" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2649,7 +2731,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR98_drive.jpg" alt="LR98">
+      <div class="zoom-wrap"><img src="LR98_drive.jpg" alt="LR98" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire, Pavé Band</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2668,7 +2750,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR101_new.jpg" alt="LR101">
+      <div class="zoom-wrap"><img src="LR101_new.jpg" alt="LR101" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2687,7 +2769,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR102_new.jpg" alt="LR102">
+      <div class="zoom-wrap"><img src="LR102_new.jpg" alt="LR102" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2706,7 +2788,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR103_drive.jpg" alt="LR103">
+      <div class="zoom-wrap"><img src="LR103_drive.jpg" alt="LR103" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2725,7 +2807,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR104_new.jpg" alt="LR104">
+      <div class="zoom-wrap"><img src="LR104_new.jpg" alt="LR104" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2744,7 +2826,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR105_new.jpg" alt="LR105">
+      <div class="zoom-wrap"><img src="LR105_new.jpg" alt="LR105" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2763,7 +2845,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR106_drive.jpg" alt="LR106">
+      <div class="zoom-wrap"><img src="LR106_drive.jpg" alt="LR106" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Classic Round Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2782,7 +2864,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR107_new.jpg" alt="LR107">
+      <div class="zoom-wrap"><img src="LR107_new.jpg" alt="LR107" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Classic Round Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -2801,7 +2883,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR108_new.jpg" alt="LR108">
+      <div class="zoom-wrap"><img src="LR108_new.jpg" alt="LR108" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Classic Round Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2820,7 +2902,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR109_drive.jpg" alt="LR109">
+      <div class="zoom-wrap"><img src="LR109_drive.jpg" alt="LR109" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2839,7 +2921,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR110_drive.jpg" alt="LR110">
+      <div class="zoom-wrap"><img src="LR110_drive.jpg" alt="LR110" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2858,7 +2940,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR111_new.jpg" alt="LR111">
+      <div class="zoom-wrap"><img src="LR111_new.jpg" alt="LR111" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Oval Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2877,7 +2959,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR112_new.jpg" alt="LR112">
+      <div class="zoom-wrap"><img src="LR112_new.jpg" alt="LR112" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K White Gold</div>
@@ -2896,7 +2978,7 @@
       <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
     <div class="modal-body">
-      <img src="LR113_new.jpg" alt="LR113">
+      <div class="zoom-wrap"><img src="LR113_new.jpg" alt="LR113" class="zoomable-img"></div>
       <div class="modal-detail">
         <div class="detail-name">Pear Solitaire</div>
         <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
@@ -3007,18 +3089,43 @@
 
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
+  const searchInput = document.getElementById('searchInput');
+  const noResults = document.getElementById('noResults');
+  let activeCategory = 'All';
+
+  function applyFilters(){
+    const query = searchInput.value.trim().toUpperCase();
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const ref = card.getAttribute('data-ref').toUpperCase();
+      const cat = card.getAttribute('data-cat');
+      const matchesCategory = (activeCategory === 'All' || cat === activeCategory);
+      const matchesSearch = (query === '' || ref.includes(query));
+      if (matchesCategory && matchesSearch) {
+        card.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    if (visibleCount === 0) noResults.classList.add('show');
+    else noResults.classList.remove('show');
+  }
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.getAttribute('data-filter');
-      cards.forEach(card => {
-        if (filter === 'All' || card.getAttribute('data-cat') === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+      activeCategory = btn.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+
+  document.querySelectorAll('.zoomable-img').forEach(img => {
+    img.addEventListener('click', () => {
+      img.classList.toggle('zoomed');
     });
   });
 </script>
