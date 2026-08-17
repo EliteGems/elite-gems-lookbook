@@ -450,9 +450,10 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     transition: transform 0.35s ease;
     max-width: calc(100% - 32px);
+    pointer-events: none;
   }
 
-  .inquiry-bar.show{ transform: translate(-50%, 0); }
+  .inquiry-bar.show{ transform: translate(-50%, 0); pointer-events: auto; }
 
   .inquiry-bar .count{
     font-family: 'Cormorant Garamond', serif;
@@ -483,6 +484,43 @@
   @media (max-width: 480px){
     .inquiry-bar{ flex-direction: column; align-items: stretch; gap: 10px; width: calc(100% - 32px); }
     .inquiry-bar .count{ text-align: center; }
+  }
+
+  /* Mobile: compact the sticky header so it doesn't dominate the screen */
+  @media (max-width: 640px){
+    header{ padding: 20px 16px 14px; }
+    h1{ font-size: 26px; }
+    .sub{ font-size: 10px; margin-top: 6px; }
+    .eyebrow{ font-size: 9px; margin-bottom: 8px; }
+
+    .filters{
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 14px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar{ display: none; }
+    .filter-btn{
+      flex-shrink: 0;
+      padding: 7px 12px;
+      font-size: 9px;
+    }
+
+    .search-wrap{ margin-top: 12px; max-width: 100%; }
+    .sort-wrap{ margin-top: 10px; }
+
+    .grid{ gap: 14px; }
+    main{ padding: 24px 14px 100px; }
+  }
+
+  /* Desktop: give the grid more breathing room and more columns */
+  @media (min-width: 1024px){
+    main{ max-width: 1440px; padding: 48px 32px 130px; }
+    .grid{ grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; }
+    header{ padding: 56px 32px 36px; }
   }
 
   footer{
