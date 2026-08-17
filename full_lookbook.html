@@ -1,0 +1,3027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Gem & Jewelry — Full Collection</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  :root{
+    --ink: #101012;
+    --ink-soft: #16161a;
+    --champagne: #c9a961;
+    --champagne-dim: #8a7642;
+    --porcelain: #f3efe6;
+    --porcelain-dim: #a8a49b;
+    --hairline: rgba(201,169,97,0.25);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background: var(--ink);
+    color: var(--porcelain);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header{
+    padding: 48px 24px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--hairline);
+    position: sticky;
+    top: 0;
+    background: var(--ink);
+    z-index: 50;
+  }
+
+  .eyebrow{
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 14px;
+  }
+
+  h1{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(30px, 6vw, 50px);
+    letter-spacing: 0.02em;
+  }
+
+  .sub{
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--porcelain-dim);
+  }
+
+  .filters{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .filter-btn{
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--porcelain-dim);
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover{ color: var(--porcelain); border-color: var(--porcelain-dim); }
+  .filter-btn.active{ background: var(--champagne); color: var(--ink); border-color: var(--champagne); }
+
+  main{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 20px 120px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 22px;
+  }
+
+  .card{
+    position: relative;
+    background: var(--ink-soft);
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .card:hover{ border-color: var(--champagne); transform: translateY(-3px); }
+  .card.hidden{ display: none; }
+
+  .card .frame{
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+
+  .card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card .plate{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 12px 14px 14px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .card .name{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .card .ref{
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--champagne-dim);
+    text-transform: uppercase;
+  }
+
+  .card .tag{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--porcelain);
+    background: rgba(16,16,18,0.6);
+    border: 1px solid var(--hairline);
+    padding: 4px 8px;
+    backdrop-filter: blur(4px);
+    z-index: 3;
+  }
+
+  .select-box{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--hairline);
+    background: rgba(16,16,18,0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .select-box svg{ width: 13px; height: 13px; opacity: 0; transition: opacity 0.2s ease; }
+  .card.selected .select-box{ background: var(--champagne); border-color: var(--champagne); }
+  .card.selected .select-box svg{ opacity: 1; }
+  .card.selected{ border-color: var(--champagne); }
+
+  .select-label{
+    position: absolute;
+    top: 12px;
+    right: 42px;
+    z-index: 5;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--porcelain-dim);
+    background: rgba(16,16,18,0.6);
+    padding: 4px 7px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .card:hover .select-label{ opacity: 1; }
+
+  .modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,9,0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .modal.open{ display: flex; }
+
+  .modal-inner{
+    max-width: 700px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 14px;
+  }
+
+  .modal-head h2{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+  }
+
+  .close-btn{
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--porcelain);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
+
+  .close-btn:hover{ border-color: var(--champagne); color: var(--champagne); }
+
+  .modal-body{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .modal-body img{
+    width: 100%;
+    border: 1px solid var(--hairline);
+    background: #1a1a1a;
+  }
+
+  .detail-name{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--champagne);
+    margin-bottom: 14px;
+  }
+
+  .detail-row{
+    font-size: 13px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .detail-row span{
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--porcelain-dim);
+    margin-bottom: 2px;
+  }
+
+  .detail-note{
+    font-size: 11px;
+    font-style: italic;
+    color: var(--champagne-dim);
+    margin: 14px 0 20px;
+  }
+
+  .modal-select-btn{
+    width: 100%;
+    background: var(--champagne);
+    color: var(--ink);
+    border: none;
+    padding: 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .modal-select-btn.added{ background: var(--ink-soft); color: var(--champagne); border: 1px solid var(--champagne); }
+
+  @media (max-width: 600px){
+    .modal-body{ grid-template-columns: 1fr; }
+  }
+
+  .inquiry-bar{
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, 140%);
+    z-index: 900;
+    background: var(--ink-soft);
+    border: 1px solid var(--champagne);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: transform 0.35s ease;
+    max-width: calc(100% - 32px);
+  }
+
+  .inquiry-bar.show{ transform: translate(-50%, 0); }
+
+  .inquiry-bar .count{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .inquiry-bar .count strong{ color: var(--champagne); font-size: 19px; margin-right: 4px; }
+
+  .inquiry-bar button{
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .inquiry-bar .send-btn{ background: var(--champagne); color: var(--ink); }
+  .inquiry-bar .send-btn:hover{ background: #ddbd7c; }
+  .inquiry-bar .clear-btn{ background: none; color: var(--porcelain-dim); border: 1px solid var(--hairline); }
+  .inquiry-bar .clear-btn:hover{ color: var(--porcelain); border-color: var(--porcelain-dim); }
+
+  @media (max-width: 480px){
+    .inquiry-bar{ flex-direction: column; align-items: stretch; gap: 10px; width: calc(100% - 32px); }
+    .inquiry-bar .count{ text-align: center; }
+  }
+
+  footer{
+    text-align: center;
+    padding: 32px 20px 50px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--porcelain-dim);
+    border-top: 1px solid var(--hairline);
+  }
+
+  footer .mark{ color: var(--champagne); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Elite Gem &amp; Jewelry</div>
+  <h1>Full Ring Collection</h1>
+  <div class="sub">74 pieces · tap to view details, select to request info</div>
+  <div class="filters">
+    <button class="filter-btn active" data-filter="All">All</button>
+<button class="filter-btn" data-filter="Round">Round</button>
+<button class="filter-btn" data-filter="Oval">Oval</button>
+<button class="filter-btn" data-filter="Marquise">Marquise</button>
+<button class="filter-btn" data-filter="Pear">Pear</button>
+<button class="filter-btn" data-filter="Radiant">Radiant</button>
+<button class="filter-btn" data-filter="Emerald-Cut">Emerald-Cut</button>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="grid">
+    
+    <div class="card" data-modal="modal-0" data-ref="LR01" data-cat="Emerald-Cut">
+      <span class="tag">Ref. LR01</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR01">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR01_drive.jpg" loading="lazy" alt="LR01">
+      </div>
+      <div class="plate">
+        <div class="name">LR01</div>
+        <div class="ref">Emerald-Cut</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-1" data-ref="LR02" data-cat="Marquise">
+      <span class="tag">Ref. LR02</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR02">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR02_drive.jpg" loading="lazy" alt="LR02">
+      </div>
+      <div class="plate">
+        <div class="name">LR02</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-2" data-ref="LR04" data-cat="Pear">
+      <span class="tag">Ref. LR04</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR04">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR04_drive.jpg" loading="lazy" alt="LR04">
+      </div>
+      <div class="plate">
+        <div class="name">LR04</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-3" data-ref="LR05" data-cat="Round">
+      <span class="tag">Ref. LR05</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR05">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR05_drive.jpg" loading="lazy" alt="LR05">
+      </div>
+      <div class="plate">
+        <div class="name">LR05</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-4" data-ref="LR07" data-cat="Marquise">
+      <span class="tag">Ref. LR07</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR07">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR07_drive.jpg" loading="lazy" alt="LR07">
+      </div>
+      <div class="plate">
+        <div class="name">LR07</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-5" data-ref="LR08" data-cat="Round">
+      <span class="tag">Ref. LR08</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR08">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR08_drive.jpg" loading="lazy" alt="LR08">
+      </div>
+      <div class="plate">
+        <div class="name">LR08</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-6" data-ref="LR11" data-cat="Radiant">
+      <span class="tag">Ref. LR11</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR11">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR11_drive.jpg" loading="lazy" alt="LR11">
+      </div>
+      <div class="plate">
+        <div class="name">LR11</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-7" data-ref="LR12" data-cat="Oval">
+      <span class="tag">Ref. LR12</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR12">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR12_drive.jpg" loading="lazy" alt="LR12">
+      </div>
+      <div class="plate">
+        <div class="name">LR12</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-8" data-ref="LR14" data-cat="Oval">
+      <span class="tag">Ref. LR14</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR14">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR14_drive.jpg" loading="lazy" alt="LR14">
+      </div>
+      <div class="plate">
+        <div class="name">LR14</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-9" data-ref="LR15" data-cat="Oval">
+      <span class="tag">Ref. LR15</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR15">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR15_drive.jpg" loading="lazy" alt="LR15">
+      </div>
+      <div class="plate">
+        <div class="name">LR15</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-10" data-ref="LR16" data-cat="Marquise">
+      <span class="tag">Ref. LR16</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR16">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR16_drive.jpg" loading="lazy" alt="LR16">
+      </div>
+      <div class="plate">
+        <div class="name">LR16</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-11" data-ref="LR17" data-cat="Oval">
+      <span class="tag">Ref. LR17</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR17">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR17_drive.jpg" loading="lazy" alt="LR17">
+      </div>
+      <div class="plate">
+        <div class="name">LR17</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-12" data-ref="LR18" data-cat="Radiant">
+      <span class="tag">Ref. LR18</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR18">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR18_drive.jpg" loading="lazy" alt="LR18">
+      </div>
+      <div class="plate">
+        <div class="name">LR18</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-13" data-ref="LR19" data-cat="Round">
+      <span class="tag">Ref. LR19</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR19">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR19_drive.jpg" loading="lazy" alt="LR19">
+      </div>
+      <div class="plate">
+        <div class="name">LR19</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-14" data-ref="LR20" data-cat="Marquise">
+      <span class="tag">Ref. LR20</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR20">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR20_drive.jpg" loading="lazy" alt="LR20">
+      </div>
+      <div class="plate">
+        <div class="name">LR20</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-15" data-ref="LR21" data-cat="Round">
+      <span class="tag">Ref. LR21</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR21">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR21_drive.jpg" loading="lazy" alt="LR21">
+      </div>
+      <div class="plate">
+        <div class="name">LR21</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-16" data-ref="LR23" data-cat="Round">
+      <span class="tag">Ref. LR23</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR23">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR23_drive.jpg" loading="lazy" alt="LR23">
+      </div>
+      <div class="plate">
+        <div class="name">LR23</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-17" data-ref="LR24" data-cat="Emerald-Cut">
+      <span class="tag">Ref. LR24</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR24">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR24_drive.jpg" loading="lazy" alt="LR24">
+      </div>
+      <div class="plate">
+        <div class="name">LR24</div>
+        <div class="ref">Emerald-Cut</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-18" data-ref="LR26" data-cat="Marquise">
+      <span class="tag">Ref. LR26</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR26">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR26_drive.jpg" loading="lazy" alt="LR26">
+      </div>
+      <div class="plate">
+        <div class="name">LR26</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-19" data-ref="LR27" data-cat="Marquise">
+      <span class="tag">Ref. LR27</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR27">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR27_drive.jpg" loading="lazy" alt="LR27">
+      </div>
+      <div class="plate">
+        <div class="name">LR27</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-20" data-ref="LR28" data-cat="Marquise">
+      <span class="tag">Ref. LR28</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR28">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR28_drive.jpg" loading="lazy" alt="LR28">
+      </div>
+      <div class="plate">
+        <div class="name">LR28</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-21" data-ref="LR29" data-cat="Round">
+      <span class="tag">Ref. LR29</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR29">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR29_drive.jpg" loading="lazy" alt="LR29">
+      </div>
+      <div class="plate">
+        <div class="name">LR29</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-22" data-ref="LR30" data-cat="Marquise">
+      <span class="tag">Ref. LR30</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR30">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR30_drive.jpg" loading="lazy" alt="LR30">
+      </div>
+      <div class="plate">
+        <div class="name">LR30</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-23" data-ref="LR31" data-cat="Marquise">
+      <span class="tag">Ref. LR31</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR31">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR31_drive.jpg" loading="lazy" alt="LR31">
+      </div>
+      <div class="plate">
+        <div class="name">LR31</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-24" data-ref="LR32" data-cat="Marquise">
+      <span class="tag">Ref. LR32</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR32">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR32_drive.jpg" loading="lazy" alt="LR32">
+      </div>
+      <div class="plate">
+        <div class="name">LR32</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-25" data-ref="LR33" data-cat="Oval">
+      <span class="tag">Ref. LR33</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR33">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR33_drive.jpg" loading="lazy" alt="LR33">
+      </div>
+      <div class="plate">
+        <div class="name">LR33</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-26" data-ref="LR34" data-cat="Oval">
+      <span class="tag">Ref. LR34</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR34">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR34_drive.jpg" loading="lazy" alt="LR34">
+      </div>
+      <div class="plate">
+        <div class="name">LR34</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-27" data-ref="LR35" data-cat="Round">
+      <span class="tag">Ref. LR35</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR35">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR35_drive.jpg" loading="lazy" alt="LR35">
+      </div>
+      <div class="plate">
+        <div class="name">LR35</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-28" data-ref="LR36" data-cat="Round">
+      <span class="tag">Ref. LR36</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR36">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR36_drive.jpg" loading="lazy" alt="LR36">
+      </div>
+      <div class="plate">
+        <div class="name">LR36</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-29" data-ref="LR37" data-cat="Radiant">
+      <span class="tag">Ref. LR37</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR37">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR37_drive.jpg" loading="lazy" alt="LR37">
+      </div>
+      <div class="plate">
+        <div class="name">LR37</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-30" data-ref="LR38" data-cat="Radiant">
+      <span class="tag">Ref. LR38</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR38">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR38_drive.jpg" loading="lazy" alt="LR38">
+      </div>
+      <div class="plate">
+        <div class="name">LR38</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-31" data-ref="LR41" data-cat="Marquise">
+      <span class="tag">Ref. LR41</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR41">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR41_drive.jpg" loading="lazy" alt="LR41">
+      </div>
+      <div class="plate">
+        <div class="name">LR41</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-32" data-ref="LR43" data-cat="Round">
+      <span class="tag">Ref. LR43</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR43">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR43_drive.jpg" loading="lazy" alt="LR43">
+      </div>
+      <div class="plate">
+        <div class="name">LR43</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-33" data-ref="LR44" data-cat="Round">
+      <span class="tag">Ref. LR44</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR44">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR44_drive.jpg" loading="lazy" alt="LR44">
+      </div>
+      <div class="plate">
+        <div class="name">LR44</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-34" data-ref="LR48" data-cat="Marquise">
+      <span class="tag">Ref. LR48</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR48">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR48_drive.jpg" loading="lazy" alt="LR48">
+      </div>
+      <div class="plate">
+        <div class="name">LR48</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-35" data-ref="LR50" data-cat="Oval">
+      <span class="tag">Ref. LR50</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR50">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR50_drive.jpg" loading="lazy" alt="LR50">
+      </div>
+      <div class="plate">
+        <div class="name">LR50</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-36" data-ref="LR67" data-cat="Marquise">
+      <span class="tag">Ref. LR67</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR67">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR67_drive.jpg" loading="lazy" alt="LR67">
+      </div>
+      <div class="plate">
+        <div class="name">LR67</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-37" data-ref="LR68" data-cat="Radiant">
+      <span class="tag">Ref. LR68</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR68">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR68_drive.jpg" loading="lazy" alt="LR68">
+      </div>
+      <div class="plate">
+        <div class="name">LR68</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-38" data-ref="LR16" data-cat="Marquise">
+      <span class="tag">Ref. LR16</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR16">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR16_new.jpg" loading="lazy" alt="LR16">
+      </div>
+      <div class="plate">
+        <div class="name">LR16</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-39" data-ref="LR17" data-cat="Oval">
+      <span class="tag">Ref. LR17</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR17">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR17_new.jpg" loading="lazy" alt="LR17">
+      </div>
+      <div class="plate">
+        <div class="name">LR17</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-40" data-ref="LR18" data-cat="Radiant">
+      <span class="tag">Ref. LR18</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR18">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR18b_drive.jpg" loading="lazy" alt="LR18">
+      </div>
+      <div class="plate">
+        <div class="name">LR18</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-41" data-ref="LR39" data-cat="Radiant">
+      <span class="tag">Ref. LR39</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR39">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR39_drive.jpg" loading="lazy" alt="LR39">
+      </div>
+      <div class="plate">
+        <div class="name">LR39</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-42" data-ref="LR40" data-cat="Marquise">
+      <span class="tag">Ref. LR40</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR40">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR40_drive.jpg" loading="lazy" alt="LR40">
+      </div>
+      <div class="plate">
+        <div class="name">LR40</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-43" data-ref="LR45" data-cat="Marquise">
+      <span class="tag">Ref. LR45</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR45">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR45_drive.jpg" loading="lazy" alt="LR45">
+      </div>
+      <div class="plate">
+        <div class="name">LR45</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-44" data-ref="LR49" data-cat="Oval">
+      <span class="tag">Ref. LR49</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR49">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR49_new.jpg" loading="lazy" alt="LR49">
+      </div>
+      <div class="plate">
+        <div class="name">LR49</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-45" data-ref="LR59" data-cat="Marquise">
+      <span class="tag">Ref. LR59</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR59">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR59_new.jpg" loading="lazy" alt="LR59">
+      </div>
+      <div class="plate">
+        <div class="name">LR59</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-46" data-ref="LR61" data-cat="Pear">
+      <span class="tag">Ref. LR61</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR61">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR61_drive.jpg" loading="lazy" alt="LR61">
+      </div>
+      <div class="plate">
+        <div class="name">LR61</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-47" data-ref="LR64" data-cat="Marquise">
+      <span class="tag">Ref. LR64</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR64">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR64_drive.jpg" loading="lazy" alt="LR64">
+      </div>
+      <div class="plate">
+        <div class="name">LR64</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-48" data-ref="LR65" data-cat="Radiant">
+      <span class="tag">Ref. LR65</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR65">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR65_drive.jpg" loading="lazy" alt="LR65">
+      </div>
+      <div class="plate">
+        <div class="name">LR65</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-49" data-ref="LR66" data-cat="Pear">
+      <span class="tag">Ref. LR66</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR66">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR66_drive.jpg" loading="lazy" alt="LR66">
+      </div>
+      <div class="plate">
+        <div class="name">LR66</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-50" data-ref="LR69" data-cat="Round">
+      <span class="tag">Ref. LR69</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR69">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR69_drive.jpg" loading="lazy" alt="LR69">
+      </div>
+      <div class="plate">
+        <div class="name">LR69</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-51" data-ref="LR70" data-cat="Pear">
+      <span class="tag">Ref. LR70</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR70">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR70_drive.jpg" loading="lazy" alt="LR70">
+      </div>
+      <div class="plate">
+        <div class="name">LR70</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-52" data-ref="LR89" data-cat="Radiant">
+      <span class="tag">Ref. LR89</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR89">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR89_new.jpg" loading="lazy" alt="LR89">
+      </div>
+      <div class="plate">
+        <div class="name">LR89</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-53" data-ref="LR90" data-cat="Marquise">
+      <span class="tag">Ref. LR90</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR90">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR90_new.jpg" loading="lazy" alt="LR90">
+      </div>
+      <div class="plate">
+        <div class="name">LR90</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-54" data-ref="LR91" data-cat="Oval">
+      <span class="tag">Ref. LR91</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR91">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR91_new.jpg" loading="lazy" alt="LR91">
+      </div>
+      <div class="plate">
+        <div class="name">LR91</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-55" data-ref="LR92" data-cat="Oval">
+      <span class="tag">Ref. LR92</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR92">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR92_new.jpg" loading="lazy" alt="LR92">
+      </div>
+      <div class="plate">
+        <div class="name">LR92</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-56" data-ref="LR93" data-cat="Marquise">
+      <span class="tag">Ref. LR93</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR93">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR93_new.jpg" loading="lazy" alt="LR93">
+      </div>
+      <div class="plate">
+        <div class="name">LR93</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-57" data-ref="LR94" data-cat="Marquise">
+      <span class="tag">Ref. LR94</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR94">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR94_drive.jpg" loading="lazy" alt="LR94">
+      </div>
+      <div class="plate">
+        <div class="name">LR94</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-58" data-ref="LR95" data-cat="Radiant">
+      <span class="tag">Ref. LR95</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR95">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR95_drive.jpg" loading="lazy" alt="LR95">
+      </div>
+      <div class="plate">
+        <div class="name">LR95</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-59" data-ref="LR97" data-cat="Oval">
+      <span class="tag">Ref. LR97</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR97">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR97_drive.jpg" loading="lazy" alt="LR97">
+      </div>
+      <div class="plate">
+        <div class="name">LR97</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-60" data-ref="LR98" data-cat="Marquise">
+      <span class="tag">Ref. LR98</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR98">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR98_drive.jpg" loading="lazy" alt="LR98">
+      </div>
+      <div class="plate">
+        <div class="name">LR98</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-61" data-ref="LR101" data-cat="Marquise">
+      <span class="tag">Ref. LR101</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR101">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR101_new.jpg" loading="lazy" alt="LR101">
+      </div>
+      <div class="plate">
+        <div class="name">LR101</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-62" data-ref="LR102" data-cat="Oval">
+      <span class="tag">Ref. LR102</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR102">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR102_new.jpg" loading="lazy" alt="LR102">
+      </div>
+      <div class="plate">
+        <div class="name">LR102</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-63" data-ref="LR103" data-cat="Oval">
+      <span class="tag">Ref. LR103</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR103">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR103_drive.jpg" loading="lazy" alt="LR103">
+      </div>
+      <div class="plate">
+        <div class="name">LR103</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-64" data-ref="LR104" data-cat="Radiant">
+      <span class="tag">Ref. LR104</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR104">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR104_new.jpg" loading="lazy" alt="LR104">
+      </div>
+      <div class="plate">
+        <div class="name">LR104</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-65" data-ref="LR105" data-cat="Radiant">
+      <span class="tag">Ref. LR105</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR105">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR105_new.jpg" loading="lazy" alt="LR105">
+      </div>
+      <div class="plate">
+        <div class="name">LR105</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-66" data-ref="LR106" data-cat="Round">
+      <span class="tag">Ref. LR106</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR106">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR106_drive.jpg" loading="lazy" alt="LR106">
+      </div>
+      <div class="plate">
+        <div class="name">LR106</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-67" data-ref="LR107" data-cat="Round">
+      <span class="tag">Ref. LR107</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR107">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR107_new.jpg" loading="lazy" alt="LR107">
+      </div>
+      <div class="plate">
+        <div class="name">LR107</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-68" data-ref="LR108" data-cat="Round">
+      <span class="tag">Ref. LR108</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR108">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR108_new.jpg" loading="lazy" alt="LR108">
+      </div>
+      <div class="plate">
+        <div class="name">LR108</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-69" data-ref="LR109" data-cat="Marquise">
+      <span class="tag">Ref. LR109</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR109">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR109_drive.jpg" loading="lazy" alt="LR109">
+      </div>
+      <div class="plate">
+        <div class="name">LR109</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-70" data-ref="LR110" data-cat="Radiant">
+      <span class="tag">Ref. LR110</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR110">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR110_drive.jpg" loading="lazy" alt="LR110">
+      </div>
+      <div class="plate">
+        <div class="name">LR110</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-71" data-ref="LR111" data-cat="Oval">
+      <span class="tag">Ref. LR111</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR111">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR111_new.jpg" loading="lazy" alt="LR111">
+      </div>
+      <div class="plate">
+        <div class="name">LR111</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-72" data-ref="LR112" data-cat="Pear">
+      <span class="tag">Ref. LR112</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR112">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR112_new.jpg" loading="lazy" alt="LR112">
+      </div>
+      <div class="plate">
+        <div class="name">LR112</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-73" data-ref="LR113" data-cat="Pear">
+      <span class="tag">Ref. LR113</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR113">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="LR113_new.jpg" loading="lazy" alt="LR113">
+      </div>
+      <div class="plate">
+        <div class="name">LR113</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Trade inquiries only &middot; <span class="mark">Elite Gem &amp; Jewelry</span>
+</footer>
+
+
+<div class="modal" id="modal-0">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR01</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR01_drive.jpg" alt="LR01">
+      <div class="modal-detail">
+        <div class="detail-name">Emerald-Cut Eternity Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Emerald-cut stones, full eternity setting</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR01">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-1">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR02</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR02_drive.jpg" alt="LR02">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Halo Ring</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, pavé halo</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR02">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-2">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR04</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR04_drive.jpg" alt="LR04">
+      <div class="modal-detail">
+        <div class="detail-name">Pear-Cut Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear-cut center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR04">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-3">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR05</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR05_drive.jpg" alt="LR05">
+      <div class="modal-detail">
+        <div class="detail-name">Twist Pavé Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, twist pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR05">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-4">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR07</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR07_drive.jpg" alt="LR07">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Bypass Ring</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, pavé bypass band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR07">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-5">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR08</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR08_drive.jpg" alt="LR08">
+      <div class="modal-detail">
+        <div class="detail-name">Round Cluster Halo</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, cluster-halo, wave band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR08">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-6">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR11</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR11_drive.jpg" alt="LR11">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant-Cut Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR11">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-7">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR12</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR12_drive.jpg" alt="LR12">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR12">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-8">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR14</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR14_drive.jpg" alt="LR14">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Halo, Infinity Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, pavé halo, infinity-twist band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR14">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-9">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR15</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR15_drive.jpg" alt="LR15">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Duo Halo</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Double oval stones, shared halo, bypass band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR15">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-10">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR16</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR16_drive.jpg" alt="LR16">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR16">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-11">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR17</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR17_drive.jpg" alt="LR17">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR17">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-12">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR18</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR18_drive.jpg" alt="LR18">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant-Cut Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR18">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-13">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR19</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR19_drive.jpg" alt="LR19">
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, classic prong band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR19">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-14">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR20</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR20_drive.jpg" alt="LR20">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Wave Band</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise stones, wave-set eternity band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR20">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-15">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR21</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR21_drive.jpg" alt="LR21">
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pavé shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR21">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-16">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR23</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR23_drive.jpg" alt="LR23">
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire, Bypass Band</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, bypass band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR23">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-17">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR24</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR24_drive.jpg" alt="LR24">
+      <div class="modal-detail">
+        <div class="detail-name">Mixed-Cut Five Stone Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Alternating pear & emerald-cut stones, half eternity</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR24">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-18">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR26</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR26_drive.jpg" alt="LR26">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Cluster Sides</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, marquise cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR26">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-19">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR27</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR27_drive.jpg" alt="LR27">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Marquise Sides</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, marquise side stones</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR27">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-20">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR28</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR28_drive.jpg" alt="LR28">
+      <div class="modal-detail">
+        <div class="detail-name">Round Cluster, Marquise Sides</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, marquise cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR28">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-21">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR29</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR29_drive.jpg" alt="LR29">
+      <div class="modal-detail">
+        <div class="detail-name">Round & Pear Duo</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pear accent stone</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR29">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-22">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR30</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR30_drive.jpg" alt="LR30">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Bezel Sides</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, bezel-set side accents</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR30">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-23">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR31</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR31_drive.jpg" alt="LR31">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Cluster Shoulders</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, pavé cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR31">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-24">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR32</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR32_drive.jpg" alt="LR32">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Marquise Cluster</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, marquise cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR32">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-25">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR33</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR33_drive.jpg" alt="LR33">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR33">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-26">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR34</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR34_drive.jpg" alt="LR34">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Three-Stone</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, round side stones, pavé shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR34">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-27">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR35</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR35_drive.jpg" alt="LR35">
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire, Pavé Shoulders</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pavé shoulder accents</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR35">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-28">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR36</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR36_drive.jpg" alt="LR36">
+      <div class="modal-detail">
+        <div class="detail-name">Classic Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR36">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-29">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR37</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR37_drive.jpg" alt="LR37">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Bezel Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, bezel setting</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR37">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-30">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR38</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR38_drive.jpg" alt="LR38">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Three-Stone</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, baguette & round sides</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR38">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-31">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR41</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR41_drive.jpg" alt="LR41">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR41">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-32">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR43</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR43_drive.jpg" alt="LR43">
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR43">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-33">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR44</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR44_drive.jpg" alt="LR44">
+      <div class="modal-detail">
+        <div class="detail-name">Round Three-Stone, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pear side stones, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR44">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-34">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR48</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR48_drive.jpg" alt="LR48">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Split Shank</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, split-shank band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR48">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-35">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR50</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR50_drive.jpg" alt="LR50">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Three-Stone, Twist Pavé</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, round side stones, twist pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR50">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-36">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR67</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR67_drive.jpg" alt="LR67">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Cluster, Two-Tone</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, round cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR67">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-37">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR68</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR68_drive.jpg" alt="LR68">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant-Cut Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR68">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-38">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR16</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR16_new.jpg" alt="LR16">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR16">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-39">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR17</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR17_new.jpg" alt="LR17">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR17">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-40">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR18</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR18b_drive.jpg" alt="LR18">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant-Cut Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR18">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-41">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR39</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR39_drive.jpg" alt="LR39">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire, Twist Band</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, twist shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR39">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-42">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR40</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR40_drive.jpg" alt="LR40">
+      <div class="modal-detail">
+        <div class="detail-name">Pear Solitaire, Cluster Sides</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, marquise cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR40">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-43">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR45</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR45_drive.jpg" alt="LR45">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR45">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-44">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR49</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR49_new.jpg" alt="LR49">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Baguette Sides</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, baguette accent shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR49">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-45">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR59</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR59_new.jpg" alt="LR59">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Cluster Sides</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, marquise & round cluster shoulders, bypass band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR59">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-46">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR61</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR61_drive.jpg" alt="LR61">
+      <div class="modal-detail">
+        <div class="detail-name">Pear Halo, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, halo, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR61">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-47">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR64</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR64_drive.jpg" alt="LR64">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Marquise Cluster</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, marquise cluster shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR64">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-48">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR65</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR65_drive.jpg" alt="LR65">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR65">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-49">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR66</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR66_drive.jpg" alt="LR66">
+      <div class="modal-detail">
+        <div class="detail-name">Pear Halo, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, halo, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR66">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-50">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR69</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR69_drive.jpg" alt="LR69">
+      <div class="modal-detail">
+        <div class="detail-name">Classic Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR69">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-51">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR70</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR70_drive.jpg" alt="LR70">
+      <div class="modal-detail">
+        <div class="detail-name">Pear Cluster, Bypass Band</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear cluster center, bypass band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR70">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-52">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR89</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR89_new.jpg" alt="LR89">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR89">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-53">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR90</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR90_new.jpg" alt="LR90">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR90">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-54">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR91</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR91_new.jpg" alt="LR91">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR91">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-55">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR92</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR92_new.jpg" alt="LR92">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR92">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-56">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR93</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR93_new.jpg" alt="LR93">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Cluster Twist Band</div>
+        <div class="detail-row"><span>Metal</span>14K Two-Tone Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, marquise cluster twist band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR93">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-57">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR94</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR94_drive.jpg" alt="LR94">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Twist Pavé</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, twist pavé shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR94">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-58">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR95</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR95_drive.jpg" alt="LR95">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR95">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-59">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR97</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR97_drive.jpg" alt="LR97">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR97">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-60">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR98</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR98_drive.jpg" alt="LR98">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire, Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, pavé band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR98">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-61">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR101</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR101_new.jpg" alt="LR101">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR101">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-62">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR102</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR102_new.jpg" alt="LR102">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR102">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-63">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR103</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR103_drive.jpg" alt="LR103">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR103">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-64">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR104</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR104_new.jpg" alt="LR104">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR104">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-65">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR105</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR105_new.jpg" alt="LR105">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR105">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-66">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR106</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR106_drive.jpg" alt="LR106">
+      <div class="modal-detail">
+        <div class="detail-name">Classic Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR106">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-67">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR107</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR107_new.jpg" alt="LR107">
+      <div class="modal-detail">
+        <div class="detail-name">Classic Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR107">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-68">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR108</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR108_new.jpg" alt="LR108">
+      <div class="modal-detail">
+        <div class="detail-name">Classic Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR108">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-69">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR109</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR109_drive.jpg" alt="LR109">
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR109">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-70">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR110</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR110_drive.jpg" alt="LR110">
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR110">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-71">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR111</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR111_new.jpg" alt="LR111">
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR111">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-72">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR112</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR112_new.jpg" alt="LR112">
+      <div class="modal-detail">
+        <div class="detail-name">Pear Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR112">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-73">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR113</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <img src="LR113_new.jpg" alt="LR113">
+      <div class="modal-detail">
+        <div class="detail-name">Pear Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, plain band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR113">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="inquiry-bar" id="inquiryBar">
+  <div class="count"><strong id="selCount">0</strong> pieces selected</div>
+  <button class="send-btn" id="sendBtn">Request Info on WhatsApp</button>
+  <button class="clear-btn" id="clearBtn">Clear</button>
+</div>
+
+<script>
+  const WHATSAPP_NUMBER = "15063047363";
+
+  const cards = document.querySelectorAll('.card[data-modal]');
+  const allModals = document.querySelectorAll('.modal');
+  const selectBoxes = document.querySelectorAll('.select-box');
+  const modalSelectBtns = document.querySelectorAll('.modal-select-btn');
+  const inquiryBar = document.getElementById('inquiryBar');
+  const selCount = document.getElementById('selCount');
+  const sendBtn = document.getElementById('sendBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  let selected = new Set();
+
+  function refreshSelectVisuals(){
+    document.querySelectorAll('.select-box').forEach(box => {
+      const ref = box.getAttribute('data-select');
+      const card = box.closest('.card');
+      if (selected.has(ref)) card.classList.add('selected');
+      else card.classList.remove('selected');
+    });
+    document.querySelectorAll('.modal-select-btn').forEach(btn => {
+      const ref = btn.getAttribute('data-select');
+      if (selected.has(ref)) {
+        btn.textContent = 'Added ✓';
+        btn.classList.add('added');
+      } else {
+        btn.textContent = 'Add to Inquiry';
+        btn.classList.remove('added');
+      }
+    });
+  }
+
+  function toggleSelect(ref){
+    if (selected.has(ref)) selected.delete(ref);
+    else selected.add(ref);
+    refreshSelectVisuals();
+    updateBar();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.select-box')) return;
+      const id = card.getAttribute('data-modal');
+      document.getElementById(id).classList.add('open');
+    });
+  });
+
+  selectBoxes.forEach(box => {
+    box.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSelect(box.getAttribute('data-select'));
+    });
+  });
+
+  modalSelectBtns.forEach(btn => {
+    btn.addEventListener('click', () => toggleSelect(btn.getAttribute('data-select')));
+  });
+
+  function updateBar(){
+    selCount.textContent = selected.size;
+    if (selected.size > 0) inquiryBar.classList.add('show');
+    else inquiryBar.classList.remove('show');
+  }
+
+  function buildWhatsAppLink(){
+    const refs = Array.from(selected).join(', ');
+    const message = `Hi, I'm interested in pricing/details for: ${refs}`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  }
+
+  sendBtn.addEventListener('click', () => {
+    if (selected.size === 0) return;
+    window.open(buildWhatsAppLink(), '_blank');
+  });
+
+  clearBtn.addEventListener('click', () => {
+    selected.clear();
+    refreshSelectVisuals();
+    updateBar();
+  });
+
+  function closeModal(){
+    allModals.forEach(m => m.classList.remove('open'));
+  }
+
+  allModals.forEach(m => {
+    m.addEventListener('click', (e) => { if (e.target === m) closeModal(); });
+  });
+
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-filter');
+      cards.forEach(card => {
+        if (filter === 'All' || card.getAttribute('data-cat') === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
