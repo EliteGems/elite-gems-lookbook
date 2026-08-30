@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elite Gems & Jewellery — Ring Collection</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
@@ -615,9 +616,104 @@
     color: var(--porcelain-dim);
     text-transform: none;
   }
+
+  .password-gate{
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: opacity 0.3s ease;
+  }
+
+  .password-gate.gate-hidden{
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .gate-box{
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .gate-logo{
+    width: 140px;
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+  }
+
+  .gate-label{
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 24px;
+  }
+
+  #gatePasswordInput{
+    width: 100%;
+    background: var(--ink-soft);
+    border: 1px solid var(--hairline);
+    color: var(--porcelain);
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    padding: 13px 16px;
+    text-align: center;
+    outline: none;
+    margin-bottom: 14px;
+  }
+
+  #gatePasswordInput:focus{ border-color: var(--champagne); }
+
+  #gateSubmitBtn{
+    width: 100%;
+    background: var(--champagne);
+    color: var(--ink);
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 13px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  #gateSubmitBtn:hover{ background: #ddbd7c; }
+
+  .gate-error{
+    display: none;
+    color: #d98a8a;
+    font-size: 12px;
+    margin-top: 14px;
+  }
+
+  .gate-error.show{ display: block; }
+
+  .site-content-hidden{
+    display: none;
+  }
 </style>
 </head>
 <body>
+
+<div id="passwordGate" class="password-gate">
+  <div class="gate-box">
+    <img src="logo.png" alt="Elite Gems &amp; Jewellery" class="gate-logo">
+    <div class="gate-label">Trade Access Only</div>
+    <input type="password" id="gatePasswordInput" placeholder="Enter password" autocomplete="off">
+    <button id="gateSubmitBtn">Enter</button>
+    <div class="gate-error" id="gateError">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<div id="siteContent" class="site-content-hidden">
 
 <div class="whatsapp-float" id="waFloat">
   <span class="wa-tooltip">Chat with us on WhatsApp</span>
@@ -3548,6 +3644,42 @@
   });
 
   applyNewBadges();
+</script>
+
+</div>
+
+<script>
+  const CORRECT_PASSWORD = "Fredericton";
+  const gate = document.getElementById('passwordGate');
+  const content = document.getElementById('siteContent');
+  const input = document.getElementById('gatePasswordInput');
+  const submitBtn = document.getElementById('gateSubmitBtn');
+  const errorMsg = document.getElementById('gateError');
+
+  function unlock(){
+    gate.classList.add('gate-hidden');
+    content.classList.remove('site-content-hidden');
+    sessionStorage.setItem('eliteGemsUnlocked', 'true');
+  }
+
+  function checkPassword(){
+    if (input.value === CORRECT_PASSWORD) {
+      unlock();
+    } else {
+      errorMsg.classList.add('show');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  if (sessionStorage.getItem('eliteGemsUnlocked') === 'true') {
+    unlock();
+  }
+
+  submitBtn.addEventListener('click', checkPassword);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') checkPassword();
+  });
 </script>
 
 </body>
