@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elite Gems & Jewellery — Ring Collection</title>
 <meta name="robots" content="noindex, nofollow">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-13D7EBEWSB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-13D7EBEWSB');
+</script>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
@@ -707,7 +716,7 @@
   <div class="gate-box">
     <img src="logo.png" alt="Elite Gems &amp; Jewellery" class="gate-logo">
     <div class="gate-label">Trade Access Only</div>
-    <input type="password" id="gatePasswordInput" placeholder="Enter password" autocomplete="off">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="gatePasswordInput" placeholder="6-digit access code" autocomplete="off">
     <button id="gateSubmitBtn">Enter</button>
     <div class="gate-error" id="gateError">Incorrect password. Please try again.</div>
   </div>
@@ -3649,21 +3658,135 @@
 </div>
 
 <script>
-  const CORRECT_PASSWORD = "Fredericton";
+  // --- TOTP implementation (RFC 6238) ---
+  function sha1(msgBytes) {
+    function rotl(n, s) { return (n << s) | (n >>> (32 - s)); }
+    let ml = msgBytes.length * 8;
+    let withOne = new Uint8Array(((msgBytes.length + 8) >> 6) * 64 + 64);
+    withOne.set(msgBytes);
+    withOne[msgBytes.length] = 0x80;
+    let dv = new DataView(withOne.buffer);
+    dv.setUint32(withOne.length - 4, ml >>> 0);
+    dv.setUint32(withOne.length - 8, Math.floor(ml / 4294967296));
+
+    let h0 = 0x67452301, h1 = 0xEFCDAB89, h2 = 0x98BADCFE, h3 = 0x10325476, h4 = 0xC3D2E1F0;
+
+    for (let chunkStart = 0; chunkStart < withOne.length; chunkStart += 64) {
+      let w = new Array(80);
+      for (let i = 0; i < 16; i++) w[i] = dv.getUint32(chunkStart + i * 4);
+      for (let i = 16; i < 80; i++) w[i] = rotl(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1);
+      let a = h0, b = h1, c = h2, d = h3, e = h4;
+      for (let i = 0; i < 80; i++) {
+        let f, k;
+        if (i < 20) { f = (b & c) | (~b & d); k = 0x5A827999; }
+        else if (i < 40) { f = b ^ c ^ d; k = 0x6ED9EBA1; }
+        else if (i < 60) { f = (b & c) | (b & d) | (c & d); k = 0x8F1BBCDC; }
+        else { f = b ^ c ^ d; k = 0xCA62C1D6; }
+        let temp = (rotl(a, 5) + f + e + k + w[i]) >>> 0;
+        e = d; d = c; c = rotl(b, 30); b = a; a = temp;
+      }
+      h0 = (h0 + a) >>> 0; h1 = (h1 + b) >>> 0; h2 = (h2 + c) >>> 0; h3 = (h3 + d) >>> 0; h4 = (h4 + e) >>> 0;
+    }
+    let out = new Uint8Array(20);
+    let odv = new DataView(out.buffer);
+    odv.setUint32(0, h0); odv.setUint32(4, h1); odv.setUint32(8, h2); odv.setUint32(12, h3); odv.setUint32(16, h4);
+    return out;
+  }
+
+  function concatBytes(a, b) {
+    let out = new Uint8Array(a.length + b.length);
+    out.set(a, 0);
+    out.set(b, a.length);
+    return out;
+  }
+
+  function hmacSha1(keyBytes, msgBytes) {
+    const blockSize = 64;
+    if (keyBytes.length > blockSize) keyBytes = sha1(keyBytes);
+    let paddedKey = new Uint8Array(blockSize);
+    paddedKey.set(keyBytes);
+    let oKeyPad = new Uint8Array(blockSize);
+    let iKeyPad = new Uint8Array(blockSize);
+    for (let i = 0; i < blockSize; i++) {
+      oKeyPad[i] = paddedKey[i] ^ 0x5c;
+      iKeyPad[i] = paddedKey[i] ^ 0x36;
+    }
+    let inner = sha1(concatBytes(iKeyPad, msgBytes));
+    return sha1(concatBytes(oKeyPad, inner));
+  }
+
+  function base32Decode(b32) {
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+    b32 = b32.replace(/=+$/, '').toUpperCase();
+    let bits = '';
+    for (let i = 0; i < b32.length; i++) {
+      let val = alphabet.indexOf(b32[i]);
+      bits += val.toString(2).padStart(5, '0');
+    }
+    let bytes = [];
+    for (let i = 0; i + 8 <= bits.length; i += 8) {
+      bytes.push(parseInt(bits.substring(i, i + 8), 2));
+    }
+    return new Uint8Array(bytes);
+  }
+
+  function totp(secretB32, period, digits, forTime) {
+    const key = base32Decode(secretB32);
+    const counter = Math.floor(forTime / period);
+    let counterBytes = new Uint8Array(8);
+    let dv = new DataView(counterBytes.buffer);
+    dv.setUint32(4, counter >>> 0);
+    dv.setUint32(0, Math.floor(counter / 4294967296));
+    const hash = hmacSha1(key, counterBytes);
+    const offset = hash[hash.length - 1] & 0x0f;
+    const code = ((hash[offset] & 0x7f) << 24 | (hash[offset+1] & 0xff) << 16 | (hash[offset+2] & 0xff) << 8 | (hash[offset+3] & 0xff)) % Math.pow(10, digits);
+    return String(code).padStart(digits, '0');
+  }
+
+  // --- Password gate logic ---
+  const TOTP_SECRET = "2QKMQPF76H6ZUIBFRVRZ42UVQZZWDDLC";
+  const TOTP_PERIOD = 600; // 10 minutes
+  const SESSION_DURATION_MS = 10 * 60 * 1000; // 10 minutes
   const gate = document.getElementById('passwordGate');
   const content = document.getElementById('siteContent');
   const input = document.getElementById('gatePasswordInput');
   const submitBtn = document.getElementById('gateSubmitBtn');
   const errorMsg = document.getElementById('gateError');
 
+  let lockTimer = null;
+
+  function isValidCode(entered){
+    const nowSec = Math.floor(Date.now() / 1000);
+    // accept current window and the previous window (grace period near rotation)
+    const currentCode = totp(TOTP_SECRET, TOTP_PERIOD, 6, nowSec);
+    const previousCode = totp(TOTP_SECRET, TOTP_PERIOD, 6, nowSec - TOTP_PERIOD);
+    return entered === currentCode || entered === previousCode;
+  }
+
+  function lock(){
+    gate.classList.remove('gate-hidden');
+    content.classList.add('site-content-hidden');
+    sessionStorage.removeItem('eliteGemsUnlocked');
+    sessionStorage.removeItem('eliteGemsUnlockedAt');
+    if (lockTimer) clearTimeout(lockTimer);
+  }
+
+  function scheduleAutoLock(remainingMs){
+    if (lockTimer) clearTimeout(lockTimer);
+    lockTimer = setTimeout(lock, remainingMs);
+  }
+
   function unlock(){
     gate.classList.add('gate-hidden');
     content.classList.remove('site-content-hidden');
+    const now = Date.now();
     sessionStorage.setItem('eliteGemsUnlocked', 'true');
+    sessionStorage.setItem('eliteGemsUnlockedAt', String(now));
+    scheduleAutoLock(SESSION_DURATION_MS);
   }
 
   function checkPassword(){
-    if (input.value === CORRECT_PASSWORD) {
+    if (isValidCode(input.value.trim())) {
       unlock();
     } else {
       errorMsg.classList.add('show');
@@ -3672,8 +3795,18 @@
     }
   }
 
-  if (sessionStorage.getItem('eliteGemsUnlocked') === 'true') {
-    unlock();
+  // On load: check if there's a still-valid unlocked session
+  const storedUnlocked = sessionStorage.getItem('eliteGemsUnlocked');
+  const storedAt = parseInt(sessionStorage.getItem('eliteGemsUnlockedAt') || '0', 10);
+  const elapsed = Date.now() - storedAt;
+
+  if (storedUnlocked === 'true' && elapsed < SESSION_DURATION_MS) {
+    gate.classList.add('gate-hidden');
+    content.classList.remove('site-content-hidden');
+    scheduleAutoLock(SESSION_DURATION_MS - elapsed);
+  } else if (storedUnlocked === 'true') {
+    sessionStorage.removeItem('eliteGemsUnlocked');
+    sessionStorage.removeItem('eliteGemsUnlockedAt');
   }
 
   submitBtn.addEventListener('click', checkPassword);
