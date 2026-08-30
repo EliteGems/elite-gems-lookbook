@@ -696,6 +696,22 @@
 
   #gateSubmitBtn:hover{ background: #ddbd7c; }
 
+  #requestCodeBtn{
+    width: 100%;
+    background: none;
+    border: 1px solid var(--champagne);
+    color: var(--champagne);
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 12px;
+    cursor: pointer;
+    margin-top: 14px;
+  }
+
+  #requestCodeBtn:hover{ background: rgba(201,169,97,0.12); }
+
   .gate-error{
     display: none;
     color: #d98a8a;
@@ -719,6 +735,7 @@
     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="gatePasswordInput" placeholder="6-digit access code" autocomplete="off">
     <button id="gateSubmitBtn">Enter</button>
     <div class="gate-error" id="gateError">Incorrect password. Please try again.</div>
+    <button id="requestCodeBtn" type="button">Request Access Code</button>
   </div>
 </div>
 
@@ -3812,6 +3829,13 @@
   submitBtn.addEventListener('click', checkPassword);
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') checkPassword();
+  });
+
+  const requestCodeBtn = document.getElementById('requestCodeBtn');
+  const WHATSAPP_NUMBER_GATE = "15063047363";
+  requestCodeBtn.addEventListener('click', () => {
+    const message = "Hi, I'm trying to access the ring lookbook and need the current access code.";
+    window.open(`https://wa.me/${WHATSAPP_NUMBER_GATE}?text=${encodeURIComponent(message)}`, '_blank');
   });
 </script>
 
