@@ -395,6 +395,72 @@
     border: none;
   }
 
+  .zoom-wrap.carousel{ position: relative; }
+
+  .carousel-slide{ display: none; }
+  .carousel-slide.active{ display: block; }
+
+  .carousel-arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10,10,10,0.55);
+    color: var(--champagne);
+    border: 1px solid var(--hairline);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    user-select: none;
+    z-index: 3;
+  }
+
+  .carousel-arrow:hover{ border-color: var(--champagne); }
+  .carousel-arrow.prev{ left: 10px; }
+  .carousel-arrow.next{ right: 10px; }
+
+  .carousel-dots{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 7px;
+    z-index: 3;
+  }
+
+  .carousel-dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(245,235,220,0.35);
+    border: 1px solid rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+
+  .carousel-dot.active{ background: var(--champagne); }
+
+  .carousel-label{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(10,10,10,0.55);
+    color: var(--porcelain);
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--hairline);
+    z-index: 3;
+    pointer-events: none;
+  }
+
   .modal-body img.zoomed{
     transform: scale(2);
     cursor: zoom-out;
@@ -696,21 +762,45 @@
 
   #gateSubmitBtn:hover{ background: #ddbd7c; }
 
-  #requestCodeBtn{
-    width: 100%;
+  .code-request-label{
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    opacity: 0.7;
+    margin-top: 18px;
+    margin-bottom: 8px;
+  }
+
+  .code-request-row{
+    display: flex;
+    gap: 10px;
+  }
+
+  .code-request-row button{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     background: none;
     border: 1px solid var(--champagne);
     color: var(--champagne);
     font-family: 'Jost', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 12px;
+    padding: 12px 8px;
     cursor: pointer;
-    margin-top: 14px;
   }
 
-  #requestCodeBtn:hover{ background: rgba(201,169,97,0.12); }
+  .code-request-row button:hover{ background: rgba(201,169,97,0.12); }
+
+  .code-request-row svg{
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
 
   .gate-error{
     display: none;
@@ -735,7 +825,17 @@
     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="gatePasswordInput" placeholder="6-digit access code" autocomplete="off">
     <button id="gateSubmitBtn">Enter</button>
     <div class="gate-error" id="gateError">Incorrect password. Please try again.</div>
-    <button id="requestCodeBtn" type="button">Request Access Code</button>
+    <div class="code-request-label">Need the code? Request it via:</div>
+    <div class="code-request-row">
+      <button id="requestCodeBtn" type="button">
+        <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.4.7 4.6 1.9 6.5L4 29l7.7-1.9c1.8 1 3.9 1.5 6.3 1.5 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-2.1 0-4.1-.6-5.8-1.6l-.4-.2-4.6 1.2 1.2-4.5-.3-.4C4.8 17.5 4.2 15.8 4.2 14 4.2 8.5 9.5 4 16 4s11.8 4.5 11.8 10-5.3 10.8-11.8 10.8zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6.1c-.3-.2-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2s0-.4.1-.6c.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C14.3 12 13.8 10.8 13.6 10.3c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.2-.3-.3-.6-.4z"/></svg>
+        WhatsApp
+      </button>
+      <button id="requestCodeEmailBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4.5" width="19" height="15" rx="1.5"/><path d="M3 6l9 7 9-7"/></svg>
+        Email
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1988,6 +2088,326 @@
       <div class="plate">
         <div class="name">LR113</div>
         <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-76" data-ref="LR42" data-cat="Round" data-added="2026-09-20">
+      <span class="tag">Ref. LR42</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR42">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR42.jpg" loading="lazy" alt="LR42">
+      </div>
+      <div class="plate">
+        <div class="name">LR42</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-77" data-ref="LR46" data-cat="Pear" data-added="2026-09-20">
+      <span class="tag">Ref. LR46</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR46">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR46.jpg" loading="lazy" alt="LR46">
+      </div>
+      <div class="plate">
+        <div class="name">LR46</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-78" data-ref="LR47" data-cat="Round" data-added="2026-09-20">
+      <span class="tag">Ref. LR47</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR47">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR47.jpg" loading="lazy" alt="LR47">
+      </div>
+      <div class="plate">
+        <div class="name">LR47</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-79" data-ref="LR51" data-cat="Pear" data-added="2026-09-20">
+      <span class="tag">Ref. LR51</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR51">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR51.jpg" loading="lazy" alt="LR51">
+      </div>
+      <div class="plate">
+        <div class="name">LR51</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-80" data-ref="LR52" data-cat="Oval" data-added="2026-09-20">
+      <span class="tag">Ref. LR52</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR52">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR52.jpg" loading="lazy" alt="LR52">
+      </div>
+      <div class="plate">
+        <div class="name">LR52</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-81" data-ref="LR53" data-cat="Pear" data-added="2026-09-20">
+      <span class="tag">Ref. LR53</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR53">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR53.jpg" loading="lazy" alt="LR53">
+      </div>
+      <div class="plate">
+        <div class="name">LR53</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-82" data-ref="LR54" data-cat="Oval" data-added="2026-09-20">
+      <span class="tag">Ref. LR54</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR54">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR54.jpg" loading="lazy" alt="LR54">
+      </div>
+      <div class="plate">
+        <div class="name">LR54</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-83" data-ref="LR56" data-cat="Radiant" data-added="2026-09-20">
+      <span class="tag">Ref. LR56</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR56">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR56.jpg" loading="lazy" alt="LR56">
+      </div>
+      <div class="plate">
+        <div class="name">LR56</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-84" data-ref="LR55" data-cat="Radiant" data-added="2026-09-20">
+      <span class="tag">Ref. LR55</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR55">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR55.jpg" loading="lazy" alt="LR55">
+      </div>
+      <div class="plate">
+        <div class="name">LR55</div>
+        <div class="ref">Radiant</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-85" data-ref="LR57" data-cat="Marquise" data-added="2026-09-20">
+      <span class="tag">Ref. LR57</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR57">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR57.jpg" loading="lazy" alt="LR57">
+      </div>
+      <div class="plate">
+        <div class="name">LR57</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-86" data-ref="LR60" data-cat="Pear" data-added="2026-09-20">
+      <span class="tag">Ref. LR60</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR60">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR60.jpg" loading="lazy" alt="LR60">
+      </div>
+      <div class="plate">
+        <div class="name">LR60</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-87" data-ref="LR62" data-cat="Round" data-added="2026-09-20">
+      <span class="tag">Ref. LR62</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR62">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR62.jpg" loading="lazy" alt="LR62">
+      </div>
+      <div class="plate">
+        <div class="name">LR62</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-88" data-ref="LR63" data-cat="Marquise" data-added="2026-09-20">
+      <span class="tag">Ref. LR63</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR63">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR63.jpg" loading="lazy" alt="LR63">
+      </div>
+      <div class="plate">
+        <div class="name">LR63</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-89" data-ref="LR71" data-cat="Marquise" data-added="2026-09-20">
+      <span class="tag">Ref. LR71</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR71">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR71.jpg" loading="lazy" alt="LR71">
+      </div>
+      <div class="plate">
+        <div class="name">LR71</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-90" data-ref="LR96" data-cat="Round" data-added="2026-09-20">
+      <span class="tag">Ref. LR96</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR96">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR96.jpg" loading="lazy" alt="LR96">
+      </div>
+      <div class="plate">
+        <div class="name">LR96</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-91" data-ref="LR99" data-cat="Pear" data-added="2026-09-20">
+      <span class="tag">Ref. LR99</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR99">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR99.jpg" loading="lazy" alt="LR99">
+      </div>
+      <div class="plate">
+        <div class="name">LR99</div>
+        <div class="ref">Pear</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-92" data-ref="LR100" data-cat="Marquise" data-added="2026-09-20">
+      <span class="tag">Ref. LR100</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR100">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR100.jpg" loading="lazy" alt="LR100">
+      </div>
+      <div class="plate">
+        <div class="name">LR100</div>
+        <div class="ref">Marquise</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-93" data-ref="LR115" data-cat="Round" data-added="2026-09-20">
+      <span class="tag">Ref. LR115</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR115">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR115.jpg" loading="lazy" alt="LR115">
+      </div>
+      <div class="plate">
+        <div class="name">LR115</div>
+        <div class="ref">Round</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-94" data-ref="LR116" data-cat="Oval" data-added="2026-09-20">
+      <span class="tag">Ref. LR116</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR116">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR116.jpg" loading="lazy" alt="LR116">
+      </div>
+      <div class="plate">
+        <div class="name">LR116</div>
+        <div class="ref">Oval</div>
+      </div>
+    </div>
+
+    <div class="card" data-modal="modal-95" data-ref="LR117" data-cat="Round" data-added="2026-09-20">
+      <span class="tag">Ref. LR117</span>
+      <span class="new-badge" data-newbadge>NEW</span>
+      <span class="select-label">Add to inquiry</span>
+      <div class="select-box" data-select="LR117">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#101012" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg>
+      </div>
+      <div class="frame">
+        <img src="thumb_LR117.jpg" loading="lazy" alt="LR117">
+      </div>
+      <div class="plate">
+        <div class="name">LR117</div>
+        <div class="ref">Round</div>
       </div>
     </div>
   </div>
@@ -3446,6 +3866,666 @@
   </div>
 </div>
 
+<div class="modal" id="modal-76">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR42</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR42_f.jpg" alt="LR42 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR42_s1.jpg" alt="LR42 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR42_s2.jpg" alt="LR42 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Round Three-Stone Ring</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone with two round side stones, three-stone setting</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR42">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-77">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR46</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR46_f.jpg" alt="LR46 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR46_s1.jpg" alt="LR46 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR46_s2.jpg" alt="LR46 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Pear Three-Stone Ring</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone with two pear side stones, three-stone setting</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR46">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-78">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR47</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR47_f.jpg" alt="LR47 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR47_s1.jpg" alt="LR47 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR47_s2.jpg" alt="LR47 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Round Three-Stone Ring with Baguettes</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone with tapered baguette side stones</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR47">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-79">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR51</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR51_f.jpg" alt="LR51 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR51_s1.jpg" alt="LR51 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR51_s2.jpg" alt="LR51 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Pear Three-Stone Ring with Pavé</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone with marquise side stones, pavé shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR51">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-80">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR52</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR52_f.jpg" alt="LR52 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR52_s1.jpg" alt="LR52 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR52_s2.jpg" alt="LR52 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Oval Ring with X-Motif Accents</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone with round accent stones in a crossed leaf-motif setting</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR52">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-81">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR53</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR53_f.jpg" alt="LR53 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR53_s1.jpg" alt="LR53 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR53_s2.jpg" alt="LR53 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Pear Solitaire with Pavé Twist Shank</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, pavé-set crossover shank</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR53">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-82">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR54</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR54_f.jpg" alt="LR54 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR54_s1.jpg" alt="LR54 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR54_s2.jpg" alt="LR54 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Oval Ring with Hidden Halo</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone with a hidden halo and scattered round accents along the shank</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR54">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-83">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR56</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR56_f.jpg" alt="LR56 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR56_s1.jpg" alt="LR56 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR56_s2.jpg" alt="LR56 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Solitaire with Graduated Side Stones</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone with graduated round side stones</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR56">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-84">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR55</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR55_f.jpg" alt="LR55 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR55_s1.jpg" alt="LR55 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR55_s2.jpg" alt="LR55 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Radiant Ring with Cluster Side Accents</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Radiant-cut center stone with round cluster accents on each shoulder</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR55">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-85">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR57</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR57_f.jpg" alt="LR57 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR57_s1.jpg" alt="LR57 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR57_s2.jpg" alt="LR57 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Three-Stone Ring</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone with pear side stones, pavé shoulders</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR57">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-86">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR60</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR60_f.jpg" alt="LR60 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR60_s1.jpg" alt="LR60 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR60_s2.jpg" alt="LR60 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Pear Solitaire with Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone, half-bezel setting, pavé-set shank</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR60">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-87">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR62</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR62_f.jpg" alt="LR62 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR62_s1.jpg" alt="LR62 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR62_s2.jpg" alt="LR62 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire with Vintage Milgrain Band</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, scalloped vintage-style band with alternating bezel diamonds</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR62">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-88">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR63</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR63_f.jpg" alt="LR63 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR63_s1.jpg" alt="LR63 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR63_s2.jpg" alt="LR63 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Ring with Sculpted Two-Tone Band</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold with White Gold Accents</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone, sculpted branch-style band with pavé bridges</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR63">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-89">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR71</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR71_f.jpg" alt="LR71 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR71_s1.jpg" alt="LR71 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR71_s2.jpg" alt="LR71 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Ring with Cluster Halo</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone with a vintage-style cluster of marquise and pear side stones</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR71">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-90">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR96</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR96_f.jpg" alt="LR96 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR96_s1.jpg" alt="LR96 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR96_s2.jpg" alt="LR96 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire with Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pavé-set shank</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR96">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-91">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR99</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR99_f.jpg" alt="LR99 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR99_s1.jpg" alt="LR99 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR99_s2.jpg" alt="LR99 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Pear Solitaire with Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Pear center stone with a hidden diamond halo detail, pavé-set shank</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR99">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-92">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR100</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR100_f.jpg" alt="LR100 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR100_s1.jpg" alt="LR100 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR100_s2.jpg" alt="LR100 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Marquise Solitaire with Hidden Halo</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Marquise center stone with a hidden diamond halo detail, plain polished band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR100">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-93">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR115</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR115_f.jpg" alt="LR115 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR115_s1.jpg" alt="LR115 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR115_s2.jpg" alt="LR115 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, plain polished band with hidden accent stones</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR115">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-94">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR116</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR116_f.jpg" alt="LR116 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR116_s1.jpg" alt="LR116 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR116_s2.jpg" alt="LR116 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Oval Solitaire with Hidden Halo</div>
+        <div class="detail-row"><span>Metal</span>14K White Gold</div>
+        <div class="detail-row"><span>Detail</span>Oval center stone with a hidden diamond halo detail, plain polished band</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR116">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-95">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>LR117</h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="zoom-wrap carousel">
+        <span class="carousel-label">Front</span>
+        <div class="carousel-track">
+          <img src="LR117_f.jpg" alt="LR117 front" class="zoomable-img carousel-slide active" data-label="Front">
+          <img src="LR117_s1.jpg" alt="LR117 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR117_s2.jpg" alt="LR117 side" class="zoomable-img carousel-slide" data-label="Side">
+        </div>
+        <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
+        <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
+        <div class="carousel-dots">
+          <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+        </div>
+      </div>
+      <div class="modal-detail">
+        <div class="detail-name">Round Solitaire with Pavé Band</div>
+        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Detail</span>Round center stone, pavé-set shank</div>
+        <div class="detail-note">Carat & pricing available upon inquiry</div>
+        <button class="modal-select-btn" data-select="LR117">Add to Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="inquiry-bar" id="inquiryBar">
   <div class="count"><strong id="selCount">0</strong> pieces selected</div>
   <button class="send-btn" id="sendBtn">Request Info on WhatsApp</button>
@@ -3506,7 +4586,10 @@
     card.addEventListener('click', (e) => {
       if (e.target.closest('.select-box')) return;
       const id = card.getAttribute('data-modal');
-      document.getElementById(id).classList.add('open');
+      const modalEl = document.getElementById(id);
+      modalEl.classList.add('open');
+      const car = modalEl.querySelector('.carousel');
+      if (car) carouselShow(car, 0);
     });
   });
 
@@ -3667,6 +4750,37 @@
     img.addEventListener('click', () => {
       img.classList.toggle('zoomed');
     });
+  });
+
+  // --- Photo carousel (front / side / side) for rings that have multiple images ---
+  function carouselShow(wrap, idx){
+    const slides = wrap.querySelectorAll('.carousel-slide');
+    const dots = wrap.querySelectorAll('.carousel-dot');
+    const label = wrap.querySelector('.carousel-label');
+    idx = (idx + slides.length) % slides.length;
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    if (label) label.textContent = slides[idx].getAttribute('data-label') || '';
+  }
+
+  function carouselNav(btn, dir){
+    const wrap = btn.closest('.carousel');
+    const slides = wrap.querySelectorAll('.carousel-slide');
+    let idx = [...slides].findIndex(s => s.classList.contains('active'));
+    carouselShow(wrap, idx + dir);
+  }
+
+  function carouselGoTo(dot, i){
+    carouselShow(dot.closest('.carousel'), i);
+  }
+
+  document.querySelectorAll('.carousel').forEach(car => {
+    let startX = 0;
+    car.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    car.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) carouselShow(car, [...car.querySelectorAll('.carousel-slide')].findIndex(s => s.classList.contains('active')) + (dx > 0 ? -1 : 1));
+    }, { passive: true });
   });
 
   applyNewBadges();
@@ -3836,6 +4950,14 @@
   requestCodeBtn.addEventListener('click', () => {
     const message = "Hi, I'm trying to access the ring lookbook and need the current access code.";
     window.open(`https://wa.me/${WHATSAPP_NUMBER_GATE}?text=${encodeURIComponent(message)}`, '_blank');
+  });
+
+  const requestCodeEmailBtn = document.getElementById('requestCodeEmailBtn');
+  const CODE_REQUEST_EMAIL = "elitegems.29@gmail.com";
+  requestCodeEmailBtn.addEventListener('click', () => {
+    const subject = "Lookbook Access Code Request";
+    const body = "Hi, I'm trying to access the ring lookbook and need the current access code.";
+    window.location.href = `mailto:${CODE_REQUEST_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 </script>
 
