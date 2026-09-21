@@ -59,6 +59,12 @@
     top: 0;
     background: var(--ink);
     z-index: 50;
+    transform: translateY(0);
+    transition: transform 0.28s ease;
+  }
+
+  header.header-collapsed{
+    transform: translateY(-100%);
   }
 
   .brand-logo{
@@ -774,23 +780,24 @@
 
   .code-request-row{
     display: flex;
-    gap: 10px;
+    gap: 8px;
   }
 
   .code-request-row button{
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 7px;
+    gap: 6px;
     background: none;
     border: 1px solid var(--champagne);
     color: var(--champagne);
     font-family: 'Jost', sans-serif;
-    font-size: 10.5px;
+    font-size: 9.5px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 12px 8px;
+    padding: 12px 6px;
     cursor: pointer;
   }
 
@@ -800,6 +807,16 @@
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+  }
+
+  .code-request-note{
+    font-size: 9px;
+    letter-spacing: 0.03em;
+    color: var(--porcelain-dim);
+    opacity: 0.75;
+    text-align: center;
+    margin-top: 8px;
+    line-height: 1.4;
   }
 
   .gate-error{
@@ -835,7 +852,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4.5" width="19" height="15" rx="1.5"/><path d="M3 6l9 7 9-7"/></svg>
         Email
       </button>
+      <button id="requestCodeSmsBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4.5h16a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H9l-4.5 4v-4H4A1.5 1.5 0 0 1 2.5 16V6A1.5 1.5 0 0 1 4 4.5z"/></svg>
+        SMS
+      </button>
     </div>
+    <div class="code-request-note">Standard text messaging rates from your carrier may apply.</div>
   </div>
 </div>
 
@@ -3879,6 +3901,7 @@
           <img src="LR42_f.jpg" alt="LR42 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR42_s1.jpg" alt="LR42 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR42_s2.jpg" alt="LR42 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR42_b.jpg" alt="LR42 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -3886,11 +3909,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Round Three-Stone Ring</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Round center stone with two round side stones, three-stone setting</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR42">Add to Inquiry</button>
@@ -3912,6 +3936,7 @@
           <img src="LR46_f.jpg" alt="LR46 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR46_s1.jpg" alt="LR46 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR46_s2.jpg" alt="LR46 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR46_b.jpg" alt="LR46 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -3919,11 +3944,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Pear Three-Stone Ring</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Pear center stone with two pear side stones, three-stone setting</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR46">Add to Inquiry</button>
@@ -3945,6 +3971,7 @@
           <img src="LR47_f.jpg" alt="LR47 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR47_s1.jpg" alt="LR47 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR47_s2.jpg" alt="LR47 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR47_b.jpg" alt="LR47 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -3952,6 +3979,7 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
@@ -3978,6 +4006,7 @@
           <img src="LR51_f.jpg" alt="LR51 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR51_s1.jpg" alt="LR51 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR51_s2.jpg" alt="LR51 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR51_b.jpg" alt="LR51 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -3985,11 +4014,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Pear Three-Stone Ring with Pavé</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Pear center stone with marquise side stones, pavé shoulders</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR51">Add to Inquiry</button>
@@ -4011,6 +4041,7 @@
           <img src="LR52_f.jpg" alt="LR52 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR52_s1.jpg" alt="LR52 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR52_s2.jpg" alt="LR52 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR52_b.jpg" alt="LR52 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4018,6 +4049,7 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
@@ -4044,6 +4076,7 @@
           <img src="LR53_f.jpg" alt="LR53 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR53_s1.jpg" alt="LR53 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR53_s2.jpg" alt="LR53 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR53_b.jpg" alt="LR53 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4051,11 +4084,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Pear Solitaire with Pavé Twist Shank</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Pear center stone, pavé-set crossover shank</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR53">Add to Inquiry</button>
@@ -4077,6 +4111,7 @@
           <img src="LR54_f.jpg" alt="LR54 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR54_s1.jpg" alt="LR54 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR54_s2.jpg" alt="LR54 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR54_b.jpg" alt="LR54 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4084,11 +4119,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Oval Ring with Hidden Halo</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Oval center stone with a hidden halo and scattered round accents along the shank</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR54">Add to Inquiry</button>
@@ -4110,6 +4146,7 @@
           <img src="LR56_f.jpg" alt="LR56 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR56_s1.jpg" alt="LR56 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR56_s2.jpg" alt="LR56 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR56_b.jpg" alt="LR56 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4117,11 +4154,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Solitaire with Graduated Side Stones</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Radiant-cut center stone with graduated round side stones</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR56">Add to Inquiry</button>
@@ -4143,6 +4181,7 @@
           <img src="LR55_f.jpg" alt="LR55 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR55_s1.jpg" alt="LR55 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR55_s2.jpg" alt="LR55 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR55_b.jpg" alt="LR55 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4150,11 +4189,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Radiant Ring with Cluster Side Accents</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Radiant-cut center stone with round cluster accents on each shoulder</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR55">Add to Inquiry</button>
@@ -4176,6 +4216,7 @@
           <img src="LR57_f.jpg" alt="LR57 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR57_s1.jpg" alt="LR57 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR57_s2.jpg" alt="LR57 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR57_b.jpg" alt="LR57 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4183,11 +4224,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Three-Stone Ring</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Marquise center stone with pear side stones, pavé shoulders</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR57">Add to Inquiry</button>
@@ -4209,6 +4251,7 @@
           <img src="LR60_f.jpg" alt="LR60 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR60_s1.jpg" alt="LR60 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR60_s2.jpg" alt="LR60 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR60_b.jpg" alt="LR60 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4216,11 +4259,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Pear Solitaire with Pavé Band</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Pear center stone, half-bezel setting, pavé-set shank</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR60">Add to Inquiry</button>
@@ -4242,6 +4286,7 @@
           <img src="LR62_f.jpg" alt="LR62 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR62_s1.jpg" alt="LR62 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR62_s2.jpg" alt="LR62 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR62_b.jpg" alt="LR62 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4249,6 +4294,7 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
@@ -4275,6 +4321,7 @@
           <img src="LR63_f.jpg" alt="LR63 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR63_s1.jpg" alt="LR63 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR63_s2.jpg" alt="LR63 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR63_b.jpg" alt="LR63 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4282,11 +4329,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Ring with Sculpted Two-Tone Band</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold with White Gold Accents</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold with White Gold Accents</div>
         <div class="detail-row"><span>Detail</span>Marquise center stone, sculpted branch-style band with pavé bridges</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR63">Add to Inquiry</button>
@@ -4308,6 +4356,7 @@
           <img src="LR71_f.jpg" alt="LR71 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR71_s1.jpg" alt="LR71 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR71_s2.jpg" alt="LR71 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR71_b.jpg" alt="LR71 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4315,11 +4364,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Ring with Cluster Halo</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Marquise center stone with a vintage-style cluster of marquise and pear side stones</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR71">Add to Inquiry</button>
@@ -4341,6 +4391,7 @@
           <img src="LR96_f.jpg" alt="LR96 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR96_s1.jpg" alt="LR96 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR96_s2.jpg" alt="LR96 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR96_b.jpg" alt="LR96 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4348,11 +4399,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire with Pavé Band</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Round center stone, pavé-set shank</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR96">Add to Inquiry</button>
@@ -4374,6 +4426,7 @@
           <img src="LR99_f.jpg" alt="LR99 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR99_s1.jpg" alt="LR99 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR99_s2.jpg" alt="LR99 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR99_b.jpg" alt="LR99 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4381,11 +4434,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Pear Solitaire with Pavé Band</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Pear center stone with a hidden diamond halo detail, pavé-set shank</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR99">Add to Inquiry</button>
@@ -4407,6 +4461,7 @@
           <img src="LR100_f.jpg" alt="LR100 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR100_s1.jpg" alt="LR100 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR100_s2.jpg" alt="LR100 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR100_b.jpg" alt="LR100 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4414,11 +4469,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Marquise Solitaire with Hidden Halo</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Marquise center stone with a hidden diamond halo detail, plain polished band</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR100">Add to Inquiry</button>
@@ -4440,6 +4496,7 @@
           <img src="LR115_f.jpg" alt="LR115 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR115_s1.jpg" alt="LR115 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR115_s2.jpg" alt="LR115 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR115_b.jpg" alt="LR115 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4447,6 +4504,7 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
@@ -4473,6 +4531,7 @@
           <img src="LR116_f.jpg" alt="LR116 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR116_s1.jpg" alt="LR116 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR116_s2.jpg" alt="LR116 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR116_b.jpg" alt="LR116 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4480,6 +4539,7 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
@@ -4506,6 +4566,7 @@
           <img src="LR117_f.jpg" alt="LR117 front" class="zoomable-img carousel-slide active" data-label="Front">
           <img src="LR117_s1.jpg" alt="LR117 side" class="zoomable-img carousel-slide" data-label="Side">
           <img src="LR117_s2.jpg" alt="LR117 side" class="zoomable-img carousel-slide" data-label="Side">
+          <img src="LR117_b.jpg" alt="LR117 back" class="zoomable-img carousel-slide" data-label="Back">
         </div>
         <div class="carousel-arrow prev" onclick="carouselNav(this,-1)">&#8249;</div>
         <div class="carousel-arrow next" onclick="carouselNav(this,1)">&#8250;</div>
@@ -4513,11 +4574,12 @@
           <span class="carousel-dot active" onclick="carouselGoTo(this,0)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,1)"></span>
           <span class="carousel-dot" onclick="carouselGoTo(this,2)"></span>
+          <span class="carousel-dot" onclick="carouselGoTo(this,3)"></span>
         </div>
       </div>
       <div class="modal-detail">
         <div class="detail-name">Round Solitaire with Pavé Band</div>
-        <div class="detail-row"><span>Metal</span>14K Rose Gold</div>
+        <div class="detail-row"><span>Metal</span>14K Yellow Gold</div>
         <div class="detail-row"><span>Detail</span>Round center stone, pavé-set shank</div>
         <div class="detail-note">Carat & pricing available upon inquiry</div>
         <button class="modal-select-btn" data-select="LR117">Add to Inquiry</button>
@@ -4784,6 +4846,31 @@
   });
 
   applyNewBadges();
+
+  // --- Collapse header on scroll down, reveal on scroll up ---
+  (function(){
+    const headerEl = document.querySelector('header');
+    if (!headerEl) return;
+    let lastY = window.scrollY;
+    let ticking = false;
+    const THRESHOLD = 60; // px scrolled down before collapsing
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < 10) {
+          headerEl.classList.remove('header-collapsed');
+        } else if (y > lastY && y > THRESHOLD) {
+          headerEl.classList.add('header-collapsed');
+        } else if (y < lastY) {
+          headerEl.classList.remove('header-collapsed');
+        }
+        lastY = y;
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
 </script>
 
 </div>
@@ -4958,6 +5045,15 @@
     const subject = "Lookbook Access Code Request";
     const body = "Hi, I'm trying to access the ring lookbook and need the current access code.";
     window.location.href = `mailto:${CODE_REQUEST_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+
+  const requestCodeSmsBtn = document.getElementById('requestCodeSmsBtn');
+  const SMS_NUMBER_GATE = "+15063047363";
+  requestCodeSmsBtn.addEventListener('click', () => {
+    const body = "Hi, I'm trying to access the ring lookbook and need the current access code.";
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const separator = isIOS ? '&' : '?';
+    window.location.href = `sms:${SMS_NUMBER_GATE}${separator}body=${encodeURIComponent(body)}`;
   });
 </script>
 
