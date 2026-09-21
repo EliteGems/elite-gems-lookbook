@@ -5071,6 +5071,8 @@
     sessionStorage.removeItem('eliteGemsUnlocked');
     sessionStorage.removeItem('eliteGemsUnlockedAt');
     if (lockTimer) clearTimeout(lockTimer);
+    input.value = '';
+    errorMsg.classList.remove('show');
   }
 
   function scheduleAutoLock(remainingMs){
@@ -5109,7 +5111,30 @@
   } else if (storedUnlocked === 'true') {
     sessionStorage.removeItem('eliteGemsUnlocked');
     sessionStorage.removeItem('eliteGemsUnlockedAt');
+    input.value = '';
   }
+
+  // Background tabs get their timers throttled by the browser, so a
+  // setTimeout scheduled 10 minutes out can fire late (or effectively
+  // never) while the tab is inactive. Re-check the real elapsed time
+  // whenever the tab becomes visible again / regains focus, so a session
+  // that should have expired actually does, right away.
+  function recheckSession(){
+    const isUnlocked = sessionStorage.getItem('eliteGemsUnlocked') === 'true';
+    if (!isUnlocked) return;
+    const at = parseInt(sessionStorage.getItem('eliteGemsUnlockedAt') || '0', 10);
+    const timeLeft = SESSION_DURATION_MS - (Date.now() - at);
+    if (timeLeft <= 0) {
+      lock();
+    } else {
+      scheduleAutoLock(timeLeft);
+    }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) recheckSession();
+  });
+  window.addEventListener('pageshow', recheckSession);
+  window.addEventListener('focus', recheckSession);
 
   submitBtn.addEventListener('click', checkPassword);
   input.addEventListener('keydown', (e) => {
