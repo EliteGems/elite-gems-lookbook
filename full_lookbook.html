@@ -478,11 +478,6 @@
     pointer-events: none;
   }
 
-  .modal-body img.zoomed{
-    transform: scale(2);
-    cursor: zoom-out;
-  }
-
   .zoom-hint{
     font-size: 9px;
     letter-spacing: 0.1em;
@@ -490,6 +485,107 @@
     color: var(--porcelain-dim);
     text-align: center;
     margin-top: 8px;
+  }
+
+  /* --- Fullscreen lightbox --- */
+  .lightbox{
+    position: fixed;
+    inset: 0;
+    background: rgba(5,5,6,0.97);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 2000;
+  }
+
+  .lightbox.open{ display: flex; }
+
+  .lightbox-stage{
+    position: relative;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .lightbox-img{
+    max-width: 94vw;
+    max-height: 82vh;
+    object-fit: contain;
+    cursor: zoom-in;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: transform 0.15s ease;
+    transform-origin: center center;
+  }
+
+  .lightbox-img.zoomed{ cursor: grab; }
+  .lightbox-img.dragging{ cursor: grabbing; transition: none; }
+
+  .lightbox-close{
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--porcelain);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    z-index: 2010;
+  }
+
+  .lightbox-close:hover{ border-color: var(--champagne); color: var(--champagne); }
+
+  .lightbox-arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10,10,10,0.55);
+    color: var(--champagne);
+    border: 1px solid var(--hairline);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    z-index: 2010;
+    user-select: none;
+  }
+
+  .lightbox-arrow.prev{ left: 18px; }
+  .lightbox-arrow.next{ right: 18px; }
+  .lightbox-arrow:hover{ border-color: var(--champagne); }
+  .lightbox-arrow.hidden{ display: none; }
+
+  .lightbox-caption{
+    padding: 16px 0 22px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--porcelain-dim);
+  }
+
+  .lightbox-caption .lightbox-hint{ opacity: 0.65; }
+
+  @media (max-width: 640px){
+    .lightbox-arrow{ width: 38px; height: 38px; font-size: 18px; }
+    .lightbox-img{ max-height: 74vh; }
+    .lightbox-caption{ flex-direction: column; gap: 4px; text-align: center; padding-bottom: 18px; }
   }
 
   .detail-name{
@@ -2486,7 +2582,7 @@
 </main>
 
 <footer>
-  <div class="footer-about">Founded in 2026, Elite Gems &amp; Jewellery imports handcrafted fine jewelry from skilled artisans in India, bringing traditional craftsmanship to retailers here. Every piece is individually crafted in 14K gold.</div>
+  <div class="footer-about">Founded in 2026, Elite Gems &amp; Jewellery imports handcrafted fine jewelry from skilled artisans in India, bringing traditional craftsmanship to retailers here. Each piece shown is individually crafted and available in 10K, 14K, or 18K gold &mdash; purity options open upon request.</div>
   <img src="qr_code.png" alt="Scan to visit" class="footer-qr">
   <div class="footer-qr-label">Scan to share this catalog</div>
   Trade inquiries only &middot; <span class="mark">Elite Gems &amp; Jewellery</span>
@@ -4644,6 +4740,19 @@
   <button class="clear-btn" id="clearBtn">Clear</button>
 </div>
 
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">Close</button>
+  <div class="lightbox-stage" id="lightboxStage">
+    <div class="lightbox-arrow prev" id="lightboxPrev" onclick="lightboxNav(-1)">&#8249;</div>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <div class="lightbox-arrow next" id="lightboxNext" onclick="lightboxNav(1)">&#8250;</div>
+  </div>
+  <div class="lightbox-caption">
+    <span id="lightboxLabel"></span>
+    <span class="lightbox-hint">Click or scroll to zoom &middot; drag to pan &middot; arrow keys to browse</span>
+  </div>
+</div>
+
 <script>
   const WHATSAPP_NUMBER = "15063047363";
 
@@ -4857,11 +4966,159 @@
   searchInput.addEventListener('input', applyFilters);
   sortSelect.addEventListener('change', applySort);
 
-  document.querySelectorAll('.zoomable-img').forEach(img => {
-    img.addEventListener('click', () => {
-      img.classList.toggle('zoomed');
+  // --- Fullscreen lightbox: open, zoom (click/scroll), pan (drag/touch), navigate ---
+  (function(){
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxLabel = document.getElementById('lightboxLabel');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    if (!lightbox || !lightboxImg) return;
+
+    let lbImages = [];
+    let lbIndex = 0;
+    let lbScale = 1;
+    let lbPanX = 0, lbPanY = 0;
+    let lbDragging = false;
+    let lbDragMoved = false;
+    let lbDragStart = { x: 0, y: 0 };
+    let lbPanStart = { x: 0, y: 0 };
+
+    function applyLbTransform(){
+      lightboxImg.style.transform = `translate(${lbPanX}px, ${lbPanY}px) scale(${lbScale})`;
+    }
+
+    function resetLbZoom(){
+      lbScale = 1; lbPanX = 0; lbPanY = 0;
+      lightboxImg.classList.remove('zoomed');
+      applyLbTransform();
+    }
+
+    function showLbImage(){
+      resetLbZoom();
+      const item = lbImages[lbIndex];
+      lightboxImg.src = item.src;
+      lightboxImg.alt = item.alt;
+      lightboxLabel.textContent = item.label;
+    }
+
+    window.lightboxNav = function(dir){
+      if (lbImages.length < 2) return;
+      lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+      showLbImage();
+    };
+
+    window.closeLightbox = function(){
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      resetLbZoom();
+    };
+
+    function openLightbox(imgEl){
+      const wrap = imgEl.closest('.zoom-wrap');
+      const slides = wrap ? wrap.querySelectorAll('.carousel-slide') : [];
+      if (slides.length){
+        lbImages = [...slides].map(s => ({
+          src: s.getAttribute('src'),
+          label: s.getAttribute('data-label') || '',
+          alt: s.getAttribute('alt') || ''
+        }));
+        lbIndex = Math.max(0, [...slides].indexOf(imgEl));
+      } else {
+        lbImages = [{ src: imgEl.getAttribute('src'), label: '', alt: imgEl.getAttribute('alt') || '' }];
+        lbIndex = 0;
+      }
+      lightboxPrev.classList.toggle('hidden', lbImages.length < 2);
+      lightboxNext.classList.toggle('hidden', lbImages.length < 2);
+      showLbImage();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function toggleLbZoom(){
+      if (lbScale === 1){
+        lbScale = 2.5;
+        lightboxImg.classList.add('zoomed');
+      } else {
+        lbScale = 1; lbPanX = 0; lbPanY = 0;
+        lightboxImg.classList.remove('zoomed');
+      }
+      applyLbTransform();
+    }
+
+    lightboxImg.addEventListener('click', () => {
+      if (!lbDragMoved) toggleLbZoom();
     });
-  });
+
+    lightboxImg.addEventListener('mousedown', (e) => {
+      if (lbScale === 1) return;
+      lbDragging = true; lbDragMoved = false;
+      lbDragStart = { x: e.clientX, y: e.clientY };
+      lbPanStart = { x: lbPanX, y: lbPanY };
+      lightboxImg.classList.add('dragging');
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!lbDragging) return;
+      const dx = e.clientX - lbDragStart.x;
+      const dy = e.clientY - lbDragStart.y;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) lbDragMoved = true;
+      lbPanX = lbPanStart.x + dx;
+      lbPanY = lbPanStart.y + dy;
+      applyLbTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      lbDragging = false;
+      lightboxImg.classList.remove('dragging');
+    });
+
+    lightboxImg.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1 && lbScale > 1){
+        lbDragging = true; lbDragMoved = false;
+        lbDragStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        lbPanStart = { x: lbPanX, y: lbPanY };
+      }
+    }, { passive: true });
+    lightboxImg.addEventListener('touchmove', (e) => {
+      if (!lbDragging || e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - lbDragStart.x;
+      const dy = e.touches[0].clientY - lbDragStart.y;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) lbDragMoved = true;
+      lbPanX = lbPanStart.x + dx;
+      lbPanY = lbPanStart.y + dy;
+      applyLbTransform();
+    }, { passive: true });
+    lightboxImg.addEventListener('touchend', () => {
+      lbDragging = false;
+      setTimeout(() => { lbDragMoved = false; }, 0);
+    });
+
+    lightboxImg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.35 : -0.35;
+      lbScale = Math.min(4, Math.max(1, lbScale + delta));
+      lightboxImg.classList.toggle('zoomed', lbScale > 1);
+      if (lbScale === 1){ lbPanX = 0; lbPanY = 0; }
+      applyLbTransform();
+    }, { passive: false });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') window.closeLightbox();
+      if (e.key === 'ArrowLeft') window.lightboxNav(-1);
+      if (e.key === 'ArrowRight') window.lightboxNav(1);
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) window.closeLightbox();
+    });
+
+    document.querySelectorAll('.zoomable-img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(img);
+      });
+    });
+  })();
 
   // --- Photo carousel (front / side / side) for rings that have multiple images ---
   function carouselShow(wrap, idx){
